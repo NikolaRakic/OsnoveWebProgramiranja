@@ -6,27 +6,27 @@ public class Korisnik {
 
 	public enum Uloga {neprijavljen, korisnik, admin}
 	
-	private String koriscnickoIme;
+	private String korisnickoIme;
 	private String lozinka;
 	private Date datumRegistracije;
 	private Uloga uloga;
 	private boolean obrisan;
 	
-	public Korisnik(String koriscnickoIme, String lozinka, Date datumRegistracije, Uloga uloga, boolean obrisan) {
+	public Korisnik(String korisnickoIme, String lozinka, Date datumRegistracije, Uloga uloga, boolean obrisan) {
 		super();
-		this.koriscnickoIme = koriscnickoIme;
+		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
 		this.datumRegistracije = datumRegistracije;
 		this.uloga = uloga;
 		this.obrisan = obrisan;
 	}
 
-	public String getKoriscnickoIme() {
-		return koriscnickoIme;
+	public String getKorisnickoIme() {
+		return korisnickoIme;
 	}
 
-	public void setKoriscnickoIme(String koriscnickoIme) {
-		this.koriscnickoIme = koriscnickoIme;
+	public void setKorisnickoIme(String korisnickoIme) {
+		this.korisnickoIme = korisnickoIme;
 	}
 
 	public String getLozinka() {

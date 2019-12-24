@@ -2,26 +2,14 @@ package model;
 
 public class Sala {
 
-	private int id;
 	private String naziv;
-	private TipProjekcije tipProjekcije;
+	private String tipProjekcije;
 	
 	
-	public Sala(int id, String naziv, TipProjekcije tipProjekcije) {
+	public Sala(String naziv, String tipProjekcije) {
 		super();
-		this.id = id;
 		this.naziv = naziv;
 		this.tipProjekcije = tipProjekcije;
-	}
-
-
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 
@@ -35,12 +23,12 @@ public class Sala {
 	}
 
 
-	public TipProjekcije getTipProjekcije() {
+	public String getTipProjekcije() {
 		return tipProjekcije;
 	}
 
 
-	public void setTipProjekcije(TipProjekcije tipProjekcije) {
+	public void setTipProjekcije(String tipProjekcije) {
 		this.tipProjekcije = tipProjekcije;
 	}
 	

@@ -9,14 +9,17 @@ public class Karta {
 	private Sediste sediste;
 	private Date vremeProdaje;
 	private Korisnik kupacKarte;
+	private boolean obrisan;
 	
-	public Karta(int id, Projekcija projekcija, Sediste sediste, Date vremeProdaje, Korisnik kupacKarte) {
+	public Karta(int id, Projekcija projekcija, Sediste sediste, Date vremeProdaje, Korisnik kupacKarte,
+			boolean obrisan) {
 		super();
 		this.id = id;
 		this.projekcija = projekcija;
 		this.sediste = sediste;
 		this.vremeProdaje = vremeProdaje;
 		this.kupacKarte = kupacKarte;
+		this.obrisan = obrisan;
 	}
 
 	public int getId() {
@@ -58,6 +61,16 @@ public class Karta {
 	public void setKupacKarte(Korisnik kupacKarte) {
 		this.kupacKarte = kupacKarte;
 	}
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
+	}
+	
+	
 	
 	
 	

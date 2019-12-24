@@ -1,6 +1,6 @@
 package model;
 
-public class FIlm {
+public class Film {
 	private int id;
 	private String naziv;
 	private String reziser;
@@ -11,9 +11,10 @@ public class FIlm {
 	private String zemlja;
 	private int godinaProizvodnje;
 	private String opis;
+	private boolean obrisan;
 	
-	public FIlm(int id, String naziv, String reziser, String glumci, String zanr, int trajanje, String distributer,
-			String zemlja, int godinaProizvodnje, String opis) {
+	public Film(int id, String naziv, String reziser, String glumci, String zanr, int trajanje, String distributer,
+			String zemlja, int godinaProizvodnje, String opis, boolean obrisan) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -25,6 +26,7 @@ public class FIlm {
 		this.zemlja = zemlja;
 		this.godinaProizvodnje = godinaProizvodnje;
 		this.opis = opis;
+		this.obrisan = obrisan;
 	}
 
 	public int getId() {
@@ -106,6 +108,16 @@ public class FIlm {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
+	}
+	
+	
 	
 	
 }
