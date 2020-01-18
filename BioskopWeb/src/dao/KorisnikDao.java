@@ -19,11 +19,10 @@ public class KorisnikDao {
 		
 		try {
 			String query = "SELECT * FROM korisnici WHERE korisnickoIme = ?";
-			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, korisnickoIme);
 			rset = pstmt.executeQuery();
-			
+			System.out.println(pstmt.toString());
 			if(rset.next()) {
 				int index = 2;
 				

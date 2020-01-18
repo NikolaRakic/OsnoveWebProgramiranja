@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>PrijavaServlet</display-name>
+    <servlet-name>PrijavaServlet</servlet-name>
+    <servlet-class>servlets.PrijavaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrijavaServlet</servlet-name>
+    <url-pattern>/PrijavaServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -13,15 +13,19 @@ public class ConnectionManager {
 	private static Connection connection;
 
 	public static void open() {
+		System.out.println("connection manager otvoren");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:mysql://" + DATABASE + "?useSSL=false", USER_NAME, PASSWORD);
+			System.out.println("uspesno otvorena konekcija");
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			System.out.println("greska kod povezivanja");
 		}
 	}
 	
 	public static Connection getConnection() {
+		System.out.println("connnnnnn");
 		return connection;
 	}
 
