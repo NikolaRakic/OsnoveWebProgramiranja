@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 	<title>Bioskop Aplikacija</title>
 	<script src="js/jquery-3.2.1.js"></script>
-	<script src="js/pocetna.js"></script>
+	<script src="js/filmovi.js"></script>
 	<link rel="stylesheet" href="css/login.css">
 	
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,13 +19,11 @@
 	  
 	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
 	</ul>
-	<h2>Projekcije:</h2>
-	<form>
-		  <input type="date" name="date">
-		  <input type="submit">
-	</form>
-	<table id="projekcije" class="Table">
-		<tr><th>Naziv filma</th><th>Datum i vreme prikazivanja</th><th>Tip projekcije</th><th>Sala</th><th>Cena</th></tr>
+	
+	<h2>Filmovi:</h2>
+	
+	<table id="filmovi" class="Table">
+		<tr><th>Naziv filma</th><th>Reziser</th><th>Glumci</th><th>Zanr</th><th>Trajanje</th><th>Distributer</th><th>Zemlja</th><th>Godina</th><th>Opis</th></tr>
 	</table>
 	
 	<div class="col-12" id="divButton">
@@ -36,16 +34,25 @@
 	
 		<form>
 		
-			<label for="nazivFilma" id="labela">Naziv Filma</label>
-			<select id="nazivFilma"></select>
-			<label for="nazivSale" id="labela">Naziv Sale</label>
-			<select id="nazivSale"></select>
-			<label for="Datum i vreme prikazivanja" id="labela">Datum i vreme prikazivanja</label>
-			<input type="datetime-local" id="datumIVreme">
-			<label for="cenaKarte" id="labela">Cena karte</label>
-			<input type="number" id="cenaKarte">
-			<input type="submit" id="tipProjekcijeBtn" value="Tip projekcije">
-			<select id="tipProjekcije"></select>
+			<label id="labela">Naziv Filma</label>
+			<input type="text" id="nazivFilma">
+			<label id="labela">Reziser</label>
+			<input type="text" id="reziser">
+			<label id="labela">Glumci</label>
+			<input type="text" id="glumci">
+			<label id="labela">Zanr</label>
+			<input type="text" id="zanr">
+			<label id="labela">Trajanje</label>
+			<input type="number" id="trajanje">
+			<label id="labela">Distributer</label>
+			<input type="text" id="distributer">
+			<label id="labela">Zemlja</label>
+			<input type="text" id="zemlja">
+			<label id="labela">Godina</label>
+			<input type="text" id="godina">
+			<label id="labela">Opis</label>
+			<input type="text" id="opis">
+			
 			<input type="submit" id="dodajBtn2" value="Dodaj">
 		</form>
 	

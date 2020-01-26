@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Bioskop Aplikacija</title>
+	<script src="js/jquery-3.2.1.js"></script>
+	<script src="js/projekcija.js"></script>
+	<link rel="stylesheet" href="css/login.css">
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<ul id="meni">
+	  <li><a class="active" href="pocetna.html">Projekcije</a></li>
+	  <li><a href="filmovi.html">Filmovi</a></li>	  
+	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
+	</ul>
+	<h2>Projekcija</h2>
+	<table id="projekcijaTable" class="Table1">
+		
+		<tr>
+			<th>Naziv filma</th>
+			<td id="nazivFilma"></td>
+		</tr>
+		<tr>
+			<th>Datum i vreme prikazivanja</th>
+			<td id="datumIVreme"></td>
+		</tr>
+		<tr>
+			<td>Tip projekcije</td>
+			<td id="tipProjekcijeTd"></td>
+		</tr>
+		<tr>
+			<td>Sala</td>
+			<td id="sala"></td>
+		</tr>
+		<tr>
+			<td>Cena</td>
+			<td id="cena"></td>
+		</tr>
+		<tr>
+			<td>Broj slobodnih mesta</td>
+			<td id="brSlobodnihMesta"></td>
+		</tr>
+	</table>
+	<div id="divButton">
+		<input type="submit" value="Obrisi" id="obrisiBtn">
+	</div>
+	
+</body>
+</html>

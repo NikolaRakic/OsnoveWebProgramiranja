@@ -1,4 +1,7 @@
-
+h2{
+	color:white;
+	text-align: center
+}
 body{
   margin: 0;
   padding: 0;
@@ -55,6 +58,192 @@ body{
 }
 .box input[type = "submit"]:hover{
   background: #2ecc71;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #a8dba4;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+
+
+
+
+
+
+
+table.Table {
+	margin-left:auto; 
+	margin-right:auto; 
+  font-family: "Arial Black", Gadget, sans-serif;
+  border: 1px solid #1C6EA4;
+  background-color: #EAEEEA;
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.Table td, table.Table th {
+  border: 1px solid #AAAAAA;
+  padding: 9px 10px;
+}
+table.Table tbody td {
+  font-size: 17px;
+}
+table.Table tr:nth-child(even) {
+  background: #DEECEE;
+}
+table.Table th {
+  background: #e30000;
+  background: -moz-linear-gradient(top, #79c37c 0%, #5eb761 66%, #4CAF50 100%);
+  background: -webkit-linear-gradient(top, #79c37c 0%, #5eb761 66%, #4CAF50 100%);
+  background: linear-gradient(to bottom, #79c37c 0%, #5eb761 66%, #4CAF50 100%);
+  border-bottom: 3px solid #000000;
+  border: 1px solid #000000;
+}
+table.Table thead th {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #070707;
+}
+table.Table thead th:first-child {
+  border-left: none;
+}
+
+
+
+
+
+table.Table1 {
+	margin-top:auto;
+	margin-bottom:auto;
+	margin-left:auto; 
+	margin-right:auto; 
+  font-family: "Arial Black", Gadget, sans-serif;
+  border: 1px solid #1C6EA4;
+  background-color: #EAEEEA;
+  width: 40%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.Table1 td, table.Table1 th {
+  border: 1px solid #AAAAAA;
+  padding: 9px 10px;
+}
+table.Table1 tbody td {
+  font-size: 17px;
+}
+table.Table1 tr:nth-child(even) {
+  background: #DEECEE;
+}
+
+
+
+#dodavanjeAdmin {
+	display: none;
+	padding: 15px;
+	background: rgba(245,245,245,0.49) none no-repeat scroll 0 0;
+	border-radius: 5px;
+}
+#izmenaAdmin {
+	display: none;
+	padding: 15px;
+	background: rgba(245,245,245,0.49) none no-repeat scroll 0 0;
+	border-radius: 5px;
+	width: 60%;
+	width:800px; 
+	margin:0 auto;
+}
+
+#formaIzmena {
+	
+}
+
+
+#labela {
+	color: black;
+	font-size: 25px;
+}
+#labela1 {
+	float:right
+	color: black;
+	font-size: 25px;
+}
+
+#divButton {
+	text-align: center;
+}
+
+#divButton > input {
+  background-color: #4CAF50;
+  border: none;
+  color: black;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#dodajBtn {
+	display: none;
+}
+#izmeniBtn {
+	display: none;
+}
+#obrisiBtn {
+	display: none;
+}
+#tipProjekcije{
+	display: none;
+}
+#dodajBtn2 {
+	display: none;
+}
+
+
+.form-inline {  
+  display:run-in;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.form-inline label {
+  margin: 5px 10px 5px 0;
+}
+
+.form-inline input {
+ 
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  
 }
 
 

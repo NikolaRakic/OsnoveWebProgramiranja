@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Bioskop Aplikacija</title>
+	<script src="js/jquery-3.2.1.js"></script>
+	<script src="js/film.js"></script>
+	<link rel="stylesheet" href="css/login.css">
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<ul id="meni">
+	  <li><a class="active" href="pocetna.html">Projekcije</a></li>
+	  <li><a href="filmovi.html">Filmovi</a></li>	  
+	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
+	</ul>
+	<h2>Film</h2>
+	<table id="filmTable" class="Table1">
+		
+		<tr>
+			<th>Naziv filma</th>
+			<td id="nazivFilma"></td>
+		</tr>
+		<tr>
+			<th>Reziser</th>
+			<td id="reziser"></td>
+		</tr>
+		<tr>
+			<td>Glumci</td>
+			<td id="glumci"></td>
+		</tr>
+		<tr>
+			<td>Zanr</td>
+			<td id="zanr"></td>
+		</tr>
+		<tr>
+			<td>Trajanje</td>
+			<td id="trajanje"></td>
+		</tr>
+		<tr>
+			<td>Distributer</td>
+			<td id="distributer"></td>
+		</tr>
+		<tr>
+			<td>Zemlja</td>
+			<td id="zemlja"></td>
+		</tr>
+		<tr>
+			<td>Godina proizvodnje</td>
+			<td id="godina"></td>
+		</tr>
+			<tr>
+			<td>Opis</td>
+			<td id="opis"></td>
+		</tr>
+	</table>
+	<div id="divButton">
+		<input type="submit" value="Izmeni" id="izmeniBtn">
+		<input type="submit" value="Obrisi" id="obrisiBtn">
+	</div>
+	
+	
+	<div clas="izmena" id="izmenaAdmin">
+	
+		<form class="form-inline" id="formaIzmena">
+		
+			<label for="nazivFilma" id="labela">Naziv Filma</label>
+			<input id="naziv" type="text">
+			<label for="reziser" id="labela1">Reziser</label>
+			<input id="reziserEdit" type="text"><br />
+			<label for="glumci" id="labela">Glumci</label>
+			<input id="glumciEdit" type="text">
+			<label for="zanr" id="labela1">Zanr</label>
+			<input id="zanrEdit" type="text"><br />
+			<label for="trajanje" id="labela">Trajanje</label>
+			<input id="trajanjeEdit" type="number">
+			<label for="distributer" id="labela1">Distributer</label>
+			<input id="distributerEdit" type="text"><br />
+			<label for="zemlja" id="labela">Zemlja</label>
+			<input id="zemljaEdit" type="text">
+			<label for="godina" id="labela1">Godina proizvodnje</label>
+			<input id="godinaEdit" type="number" size="4"><br />
+			<label for="opis" id="labela">Opis</label>
+			<textarea name="Text1" cols="40" rows="3" id="opisEdit"></textarea>
+			<input type="submit" id="izmeniBtn2" value="Izmeni">
+			<input type="submit" id="odustaniBtn" value="Odustani">
+		</form>
+	
+	</div>
+	
+</body>
+</html>

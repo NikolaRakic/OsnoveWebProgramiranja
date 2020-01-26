@@ -59,11 +59,10 @@ public class FilmDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		try {
-			String query = "SELECT * FROM filmovi WHERE id = ? AND delete = ?";
+			String query = "SELECT * FROM filmovi WHERE id = ?";
 		
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, id);
-			pstmt.setBoolean(2, false);	
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -125,9 +124,12 @@ public class FilmDao {
 	public static boolean update(Film film) {
 		Connection conn = ConnectionManager.getConnection();	
 		PreparedStatement pstmt = null;
+		System.out.println("Opis: " + film.getOpis());
 		try {
-			String query = "UPDATE filmovi SET naziv = ?, reziser = ?, glumci = ?, zanr = ?, trajanje = ?"
-					+ "distributer = ?, zemlja = ?, godinaProizvodnje = ?, opis = ?, obrisan = ?";
+			String query = "UPDATE filmovi SET naziv = ?, reziser = ?, glumci = ?, zanr = ?, trajanje = ?,"
+					+ "distributer = ?, zemlja = ?, godinaProizvodnje = ?, opis = ?, obrisan = ? WHERE id = ?";
+			
+			
 			pstmt = conn.prepareStatement(query);
 			
 			int index = 1;
@@ -141,6 +143,36 @@ public class FilmDao {
 			pstmt.setInt(index++, film.getGodinaProizvodnje());
 			pstmt.setString(index++, film.getOpis());
 			pstmt.setBoolean(index++, film.isObrisan());
+			pstmt.setInt(index++, film.getId());
+			
+			System.out.println("ID FILMA ZA IZMENU JE : " + film.getId());
+			
+			return pstmt.executeUpdate() == 1;
+		 } catch (SQLException ex) {
+		System.out.println("Greska u SQL upitu!");
+		ex.printStackTrace();
+		 } finally {
+			 try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		 }
+
+  		 return false;
+ 
+	}
+	
+	
+	
+	public static boolean delete(int id) {
+		Connection conn = ConnectionManager.getConnection();	
+		PreparedStatement pstmt = null;
+		try {
+			String query = "UPDATE filmovi SET obrisan = ? WHERE id = ?";	
+			
+			pstmt = conn.prepareStatement(query);
+			
+			int index = 1;
+		
+			pstmt.setBoolean(index++, true);
+			pstmt.setInt(index++, id);			
 			
 			return pstmt.executeUpdate() == 1;
 		 } catch (SQLException ex) {

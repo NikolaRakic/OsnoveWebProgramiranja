@@ -3,16 +3,16 @@ package model;
 public class Sediste {
 	private int id;
 	private int redniBroj;
-	private Sala sala;
+	private int projekcijaId;
 	private boolean zauzeto;
 	
 	
 
-	public Sediste(int id, int redniBroj, Sala sala, boolean zauzeto) {
+	public Sediste(int id, int redniBroj, int projekcijaId, boolean zauzeto) {
 		super();
 		this.id = id;
 		this.redniBroj = redniBroj;
-		this.sala = sala;
+		this.projekcijaId = projekcijaId;
 		this.zauzeto = zauzeto;
 	}
 	
@@ -37,12 +37,12 @@ public class Sediste {
 		this.redniBroj = redniBroj;
 	}
 
-	public Sala getSala() {
-		return sala;
+	public int getprojekcijaId() {
+		return projekcijaId;
 	}
 
-	public void setSala(Sala sala) {
-		this.sala = sala;
+	public void setprojekcijaId(int projekcijaId) {
+		this.projekcijaId = projekcijaId;
 	}
 
 	public boolean isZauzeto() {

@@ -5,27 +5,25 @@ import java.util.Date;
 
 public class Projekcija {
 	
-	public enum TipProjekcijeEnum {D2, D3, D4}
+	
 	
 	private int id;
 	private Film film;
 	private Sala sala;
-	private TipProjekcijeEnum tipProjekcije;
+	private String tipProjekcije;
 	private Date datumPrikazivanja;
-	private String vremePrikazivanja;
 	private int cenaKarte;
 	private Korisnik admin;
 	private boolean obrisan;
 	
-	public Projekcija(int id, Film film, Sala sala, TipProjekcijeEnum tipProjekcije, Date datumPrikazivanja,
-			String vremePrikazivanja, int cenaKarte, Korisnik admin, boolean obrisan) {
+	public Projekcija(int id, Film film, Sala sala, String tipProjekcije, Date datumPrikazivanja,
+			 int cenaKarte, Korisnik admin, boolean obrisan) {
 		super();
 		this.id = id;
 		this.film = film;
 		this.sala = sala;
 		this.tipProjekcije = tipProjekcije;
 		this.datumPrikazivanja = datumPrikazivanja;
-		this.vremePrikazivanja = vremePrikazivanja;
 		this.cenaKarte = cenaKarte;
 		this.admin = admin;
 		this.obrisan = obrisan;
@@ -55,11 +53,11 @@ public class Projekcija {
 		this.sala = sala;
 	}
 
-	public TipProjekcijeEnum getTipProjekcije() {
+	public String getTipProjekcije() {
 		return tipProjekcije;
 	}
 
-	public void setTipProjekcije(TipProjekcijeEnum tipProjekcije) {
+	public void setTipProjekcije(String tipProjekcije) {
 		this.tipProjekcije = tipProjekcije;
 	}
 
@@ -71,13 +69,6 @@ public class Projekcija {
 		this.datumPrikazivanja = datumPrikazivanja;
 	}
 
-	public String getVremePrikazivanja() {
-		return vremePrikazivanja;
-	}
-
-	public void setVremePrikazivanja(String vremePrikazivanja) {
-		this.vremePrikazivanja = vremePrikazivanja;
-	}
 
 	public int getCenaKarte() {
 		return cenaKarte;
