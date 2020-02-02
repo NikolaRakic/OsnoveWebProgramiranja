@@ -115,7 +115,7 @@ public class ProjekcijaDao {
 		
 		try {
 			String query = "INSERT INTO projekcije (filmID, salaNaziv, tipProjekcije, datumPrikazivanja, cenaKarte, admin)"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+					+ "VALUES (?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(query);
 			
 			int index = 1;

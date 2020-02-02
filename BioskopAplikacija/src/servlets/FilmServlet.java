@@ -43,11 +43,8 @@ public class FilmServlet extends HttpServlet {
 		if(action.equals("getOne")) {
 			try {
 				int id = Integer.parseInt(request.getParameter("id"));
-				System.out.println("ID FILMA JE : " + id);
 				Film film = FilmDao.getOne(id);
-				System.out.println("naziv filma je : " + film.getNaziv());
 				if(film != null) {
-					System.out.println("nasao je neki film");
 					Map<String, Object> data = new LinkedHashMap<>();
 					data.put("film", film);
 					request.setAttribute("data", data);
@@ -81,23 +78,14 @@ public class FilmServlet extends HttpServlet {
 			try {
 				int id = Integer.parseInt(request.getParameter("id"));
 				String naziv = request.getParameter("naziv");
-				System.out.println(naziv);
 				String reziser = request.getParameter("reziser");
-				System.out.println(reziser);
 				String glumci = request.getParameter("glumci");
-				System.out.println(glumci);
 				String zanr = request.getParameter("zanr");
-				System.out.println(zanr);
 				int trajanje = Integer.parseInt(request.getParameter("trajanje"));
-				System.out.println(trajanje);
 				String distributer = request.getParameter("distributer");
-				System.out.println(distributer);
 				String zemlja = request.getParameter("zemlja");
-				System.out.println(zemlja);
 				int godina = Integer.parseInt(request.getParameter("godina"));
-				System.out.println(godina);
 				String opis = request.getParameter("opis");
-				System.out.println(opis);
 				
 			
 				

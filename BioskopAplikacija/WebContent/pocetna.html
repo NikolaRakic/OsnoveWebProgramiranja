@@ -21,8 +21,9 @@
 	</ul>
 	<h2>Projekcije:</h2>
 	<form>
-		  <input type="date" name="date">
-		  <input type="submit">
+	<input placeholder="Date" class="textbox-n" type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')"  id="date">
+		  <input type="date" name="date" id="datumInput">
+		  <input type="submit" id="pronadjiBtn" value="Pronadji">
 	</form>
 	<table id="projekcije" class="Table">
 		<tr><th>Naziv filma</th><th>Datum i vreme prikazivanja</th><th>Tip projekcije</th><th>Sala</th><th>Cena</th></tr>

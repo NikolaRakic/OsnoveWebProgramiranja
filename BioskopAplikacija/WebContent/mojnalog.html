@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Bioskop Aplikacija</title>
+	<script src="js/jquery-3.2.1.js"></script>
+	<script src="js/mojnalog.js"></script>
+	<link rel="stylesheet" href="css/login.css">
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+</head>
+<body>
+	
+	<ul id="meni">
+	  <li><a href="pocetna.html">Projekcije</a></li>
+	  <li><a href="filmovi.html">Filmovi</a></li>	  
+	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
+	</ul>
+	<h2>Moj nalog</h2>
+	<table id="filmTable" class="Table1">
+	
+		<tr>
+			<td>Korisnicko Ime</td>
+			<td id="korisnickoIme"></td>
+		</tr>
+		<tr>
+			<td>Datum registracije</td>
+			<td id="datumRegistracije"></td>
+		</tr>
+		<tr>
+			<td>Uloga</td>
+			<td id="uloga"></td>
+		</tr>
+	
+	</table>
+	
+	
+	<div id="divButton">
+		<input type="submit" value="Izmeni" id="izmeniBtn">
+		<input type="submit" value="Obrisi" id="obrisiBtn">
+	</div>
+	
+	
+	<div clas="izmena" id="izmenaAdmin">
+	
+		<form class="form-inline" id="formaIzmena">
+		
+			<label for="korisnickoIme" id="labela">Korisnicko ime</label>
+			<input id="korIme" type="text" readonly>
+			
+			<label for="lozinka" id="labela1">Lozinka</label>
+			<input id="lozinka" type="text"><br />
+			
+			<label for="datumRegistracije" id="labela">Datum registracije</label>
+			<input id="datumRegistracije1" type="text" readonly>
+			
+			<label for="uloga" id="labela1">Uloga</label>
+			<label class="radio-inline"><input id='admin' type="radio" name="radio" checked>ADMIN</label>
+				<label class="radio-inline"><input id='korisnik' type="radio" name="radio">KORISNIK</label>
+			<br />
+			
+			<input type="submit" id="izmeniBtn2" value="Izmeni">
+			<input type="submit" id="odustaniBtn" value="Odustani">
+		</form>
+	
+	</div>
+	
+	
+	
+	
+</body>
+</html>

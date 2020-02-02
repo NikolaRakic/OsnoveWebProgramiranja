@@ -4,7 +4,7 @@ $(document).ready(function(){
 	console.log('id je: ' + id);
 	
 	function menuBar(){
-		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnikUloga'}, function(data){
+		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnik'}, function(data){
 			console.log(data.status);
 			
 			if(data.status == 'NEPRIJAVLJEN'){
@@ -16,7 +16,7 @@ $(document).ready(function(){
 			}
 			else{
 				
-				$('#meni').append('<li><a href="mojNalog.html">Moj nalog</a></li>'+
+				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
 						'<li><a href="mojeKarte.html">Moje karte</a></li>');
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
 					
@@ -59,7 +59,7 @@ $(document).ready(function(){
 	
 	
 	$('#izmeniBtn').on('click', function(event){
-		$('#izmenaAdmin').show();
+		$('#izmenaAdmin').fadeIn();
 		$('#naziv').val(film.naziv);
 		$('#reziserEdit').val(film.reziser);
 		$('#glumciEdit').val(film.glumci);
@@ -117,6 +117,14 @@ $(document).ready(function(){
 			
 			event.preventDefault();
 			return;
+		});
+		
+		
+		$('#odustaniBtn').on('click', function(event){
+			$('#izmenaAdmin').fadeOut();
+			
+			event.preventDefault();
+			return false;
 		});
 		
 	});

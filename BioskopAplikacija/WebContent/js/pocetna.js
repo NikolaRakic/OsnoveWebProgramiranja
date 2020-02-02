@@ -52,7 +52,7 @@ $(document).ready(function(){
 			});
 			
 			$('#dodajBtn2').on('click', function(event){
-				console.log("DODAJ BTN 2")
+				
 				var nazivFilma = $('#nazivFilma').val();
 				var tipProjekcije = $('#tipProjekcije').val();
 				var datumPrikazivanja = $('#datumIVreme').val();
@@ -90,7 +90,7 @@ $(document).ready(function(){
 	});
 	
 	function menuBar(){
-		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnikUloga'}, function(data){
+		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnik'}, function(data){
 			console.log(data.status);
 			
 			if(data.status == 'NEPRIJAVLJEN'){
@@ -102,7 +102,7 @@ $(document).ready(function(){
 			}
 			else{
 				
-				$('#meni').append('<li><a href="mojNalog.html">Moj nalog</a></li>'+
+				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
 						'<li><a href="mojeKarte.html">Moje karte</a></li>');
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
 					
@@ -121,14 +121,17 @@ $(document).ready(function(){
 	function getTable(){
 		$.get('ProjekcijaServlet', {'status':'getAll'}, function(data){
 			var projekcije = data.projekcije;
+			
 			//console.log(projekcije);
 			for(i in projekcije){
 				var dt = new Date(projekcije[i].datumPrikazivanja);
+				var datum = dt.getDate()+'-'+(dt.getMonth()+1)+'-'+dt.getFullYear();
+				var vreme = dt.getHours() + ":" + dt.getMinutes()
 				//console.log(projekcije[i].film.naziv);
 				$('#projekcije').append(
 				'<tr>'+
 					'<td><a href ="film.html?id=' + projekcije[i].film.id +'">'+ projekcije[i].film.naziv +'</a></td>'+
-					'<td><a href ="projekcija.html?id=' + projekcije[i].id +'">'+ dt +'</td>'+
+					'<td><a href ="projekcija.html?id=' + projekcije[i].id +'">'+ datum + " " + vreme +'</td>'+
 					'<td>'+ projekcije[i].tipProjekcije +'</td>'+
 					'<td>'+ projekcije[i].sala.naziv +'</td>'+
 					'<td>'+ projekcije[i].cenaKarte +" din" +'</td>'+
@@ -137,6 +140,23 @@ $(document).ready(function(){
 			}
 		});
 	}
+	
+	
+	
+	
+	$('#pronadjiBtn').on('click', function(event){
+		
+		var today = new Date();
+		console.log(today)
+		var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+		console.log("datum je" + date);
+		
+		var datum = $('#datumInput').val();
+		alert(datum)
+		
+		
+	});
+	
 	
 	
 	getTable();

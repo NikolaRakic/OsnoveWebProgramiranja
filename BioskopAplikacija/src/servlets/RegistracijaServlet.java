@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -56,12 +57,14 @@ public class RegistracijaServlet extends HttpServlet {
 			Date datumRegistracije = new Date(0);
 			Korisnik noviKorisnik = new Korisnik(korIme, lozinka, datumRegistracije, Uloga.KORISNIK.toString(), false);
 			KorisnikDao.add(noviKorisnik);
+			request.getSession().setAttribute("UlogovaniKorisnik", noviKorisnik.getKorisnickoIme());
 			request.getRequestDispatcher("./SuccessServlet").forward(request, response);				
 			System.out.println("Registrovani korisnik: " + noviKorisnik.getKorisnickoIme());
 			
 			
 		}catch (Exception ex) {
 			String message = ex.getMessage();
+			
 			if (message == null) {
 				message = "Nepredvidjena greska!";
 				ex.printStackTrace();

@@ -17,7 +17,7 @@ $(document).ready(function(){
 	
 	
 	function menuBar(){
-		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnikUloga'}, function(data){
+		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnik'}, function(data){
 			console.log(data.status);
 			
 			if(data.status == 'NEPRIJAVLJEN'){
@@ -29,7 +29,7 @@ $(document).ready(function(){
 			}
 			else{
 				
-				$('#meni').append('<li><a href="mojNalog.html">Moj nalog</a></li>'+
+				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
 						'<li><a href="mojeKarte.html">Moje karte</a></li>');
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
 					
