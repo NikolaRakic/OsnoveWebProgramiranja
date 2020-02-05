@@ -20,13 +20,14 @@
 	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
 	</ul>
 	<h2>Projekcije:</h2>
-	<form>
-	<input placeholder="Date" class="textbox-n" type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')"  id="date">
-		  <input type="date" name="date" id="datumInput">
-		  <input type="submit" id="pronadjiBtn" value="Pronadji">
-	</form>
+	
+	
+		  <input type="date" onchange="pronadjiProjekcije()" name="date" id="datumInput">
+		 <!-- <button  onClick="pronadjiFilmove()" id="pronadjiBtn" value="Pronadji" />  -->
+	
 	<table id="projekcije" class="Table">
 		<tr><th>Naziv filma</th><th>Datum i vreme prikazivanja</th><th>Tip projekcije</th><th>Sala</th><th>Cena</th></tr>
+		<tbody id="tbodyid"></tbody>
 	</table>
 	
 	<div class="col-12" id="divButton">
@@ -40,12 +41,14 @@
 			<label for="nazivFilma" id="labela">Naziv Filma</label>
 			<select id="nazivFilma"></select>
 			<label for="nazivSale" id="labela">Naziv Sale</label>
-			<select id="nazivSale"></select>
+			<select  onchange="tipProjekcije" id="nazivSale"></select>
 			<label for="Datum i vreme prikazivanja" id="labela">Datum i vreme prikazivanja</label>
-			<input type="datetime-local" id="datumIVreme">
+			<!--  <input type="datetime-local" id="datumIVreme"> -->
+			<input type="date" name="date1" id="datumInput1">
+			<input type="time" name="time" id="vremeInput">
 			<label for="cenaKarte" id="labela">Cena karte</label>
 			<input type="number" id="cenaKarte">
-			<input type="submit" id="tipProjekcijeBtn" value="Tip projekcije">
+			
 			<select id="tipProjekcije"></select>
 			<input type="submit" id="dodajBtn2" value="Dodaj">
 		</form>

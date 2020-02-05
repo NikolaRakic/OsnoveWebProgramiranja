@@ -2,6 +2,12 @@ package model;
 
 public class Sala {
 
+	@Override
+	public String toString() {
+		return "Sala [naziv=" + naziv + ", tipProjekcije=" + tipProjekcije + "]";
+	}
+
+
 	private String naziv;
 	private String tipProjekcije;
 	

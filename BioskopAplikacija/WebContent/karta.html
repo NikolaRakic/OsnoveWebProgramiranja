@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 	<title>Bioskop Aplikacija</title>
 	<script src="js/jquery-3.2.1.js"></script>
-	<script src="js/projekcija.js"></script>
+	<script src="js/karta.js"></script>
 	<link rel="stylesheet" href="css/login.css">
 	
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,52 +12,47 @@
 
 </head>
 <body>
+
+
 	<ul id="meni">
-	  <li><a class="active" href="pocetna.html">Projekcije</a></li>
+	  <li><a href="pocetna.html">Projekcije</a></li>
 	  <li><a href="filmovi.html">Filmovi</a></li>	  
 	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
 	</ul>
-	<h2>Projekcija</h2>
-	<table id="projekcijaTable" class="Table1">
+	<h2>Karta</h2>
+	
+	<table id="karta	Table" class="Table1">
 		
 		<tr>
 			<th>Naziv filma</th>
 			<td id="nazivFilma"></td>
 		</tr>
 		<tr>
-			<th>Datum i vreme prikazivanja</th>
-			<td id="datumIVreme"></td>
+			<th>Datum i vreme projekcije</th>
+			<td id="vremeProjekcije"></td>
 		</tr>
 		<tr>
 			<td>Tip projekcije</td>
-			<td id="tipProjekcijeTd"></td>
+			<td id="tipProjekcijeKarta"></td>
 		</tr>
 		<tr>
 			<td>Sala</td>
 			<td id="sala"></td>
 		</tr>
 		<tr>
+			<td>Sediste</td>
+			<td id="sediste"></td>
+		</tr>
+		<tr>
 			<td>Cena</td>
 			<td id="cena"></td>
 		</tr>
-		<tr>
-			<td>Broj slobodnih mesta</td>
-			<td id="brSlobodnihMesta"></td>
-		</tr>
+		
 	</table>
+	
 	<div id="divButton">
 		<input type="submit" value="Obrisi" id="obrisiBtn">
 	</div>
-		
-	<h2>Prodate karte za projekciju</h2>
-	<table id="karteZaProjekciju" class="Table2">
-	
-		<tr>
-			<th>Vreme prodaje</th>
-			<th>Kupac</th>
-		</tr>
-	
-	</table>
-	
+
 </body>
 </html>

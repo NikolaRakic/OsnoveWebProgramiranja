@@ -41,7 +41,7 @@ public class ProjekcijaDao {
 				Korisnik admin = KorisnikDao.getOne(rset.getString(index++));
 				boolean obrisan = rset.getBoolean(index++);
 				
-				return new Projekcija(id, film, sala, tipProjekcije, datumPrikazivanja,  cenaKarte, admin, obrisan);
+				return new Projekcija(id, film, sala, tipProjekcije, datumPrikazivanjaStr,  cenaKarte, admin, obrisan);
 			}
 			
 		}catch (SQLException ex) {
@@ -56,6 +56,8 @@ public class ProjekcijaDao {
 		}
 		return null;
 	}
+	
+	
 	
 	
 	public static ArrayList<Projekcija> getAll(){
@@ -91,7 +93,7 @@ public class ProjekcijaDao {
 				Korisnik admin = KorisnikDao.getOne(rset.getString(index++));
 				boolean obrisan = rset.getBoolean(index++);
 				
-				projekcije.add(new Projekcija(id, film, sala, tipProjekcije, datumPrikazivanja, cenaKarte, admin, obrisan));
+				projekcije.add(new Projekcija(id, film, sala, tipProjekcije, datumPrikazivanjaStr, cenaKarte, admin, obrisan));
 			}
 			return projekcije;
 		} catch (SQLException ex) {
@@ -109,6 +111,56 @@ public class ProjekcijaDao {
 	
 	
 	
+	
+	
+	public static ArrayList<Projekcija> getAllForDate(String datum){
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Projekcija> projekcije = new ArrayList<Projekcija>();
+		
+		try {
+			String query = "SELECT * FROM projekcije WHERE obrisan = ? AND datumPrikazivanja like '%" + datum + "%'";
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1, false);
+			
+		
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				int index = 1;
+				int id = rset.getInt(index++);
+				Film film = FilmDao.getOne(rset.getInt(index++));
+				Sala sala = SalaDao.getOne(rset.getString(index++));
+				String tipProjekcije = rset.getString(index++);
+				String datumPrikazivanjaStr = rset.getString(index++);
+				Date datumPrikazivanja = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(datumPrikazivanjaStr);		
+				int cenaKarte = rset.getInt(index++);
+				Korisnik admin = KorisnikDao.getOne(rset.getString(index++));
+				boolean obrisan = rset.getBoolean(index++);
+				
+				projekcije.add(new Projekcija(id, film, sala, tipProjekcije, datumPrikazivanjaStr, cenaKarte, admin, obrisan));
+			}
+			return projekcije;
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} catch (ParseException ex) {
+			ex.printStackTrace();
+			
+		} finally {
+		try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 	public static boolean create(Projekcija projekcija) {
 		Connection conn = ConnectionManager.getConnection();	
 		PreparedStatement pstmt = null;
@@ -122,7 +174,7 @@ public class ProjekcijaDao {
 			pstmt.setInt(index++, projekcija.getFilm().getId());
 			pstmt.setString(index++, projekcija.getSala().getNaziv());
 			pstmt.setString(index++, projekcija.getTipProjekcije());
-			pstmt.setDate(index++, (java.sql.Date) projekcija.getDatumPrikazivanja());
+			pstmt.setString(index++, projekcija.getDatumPrikazivanja());
 			pstmt.setInt(index++, projekcija.getCenaKarte());
 			pstmt.setString(index++, projekcija.getAdmin().getKorisnickoIme());
 			
@@ -147,7 +199,7 @@ public class ProjekcijaDao {
 			pstmt.setInt(index++, projekcija.getFilm().getId());
 			pstmt.setString(index++, projekcija.getSala().getNaziv());
 			pstmt.setString(index++, projekcija.getTipProjekcije().toString());
-			pstmt.setDate(index++, (java.sql.Date) projekcija.getDatumPrikazivanja());
+			pstmt.setString(index++, projekcija.getDatumPrikazivanja());
 			pstmt.setInt(index++, projekcija.getCenaKarte());
 			pstmt.setBoolean(index++, projekcija.isObrisan());
 			

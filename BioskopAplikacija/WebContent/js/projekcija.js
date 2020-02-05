@@ -33,14 +33,14 @@ $(document).ready(function(){
 	
 	
 	function getTable(){
-		$.get('ProjekcijaServlet',{'id' : id, 'status' : 'getOne'}, function(data){
+		$.get('ProjekcijaServlet',{'id' : id, 'action' : 'getOne'}, function(data){
 		
 			var projekcija = data.projekcija;
 			var brSlobodnihMesta = data.brSlobodnihSedista;
 			if(data.status == 'success'){
 				
 				var dt = new Date(projekcija.datumPrikazivanja);
-				$('#nazivFilma').text(projekcija.film.naziv);
+				$('#nazivFilma').append('<a href="film.html?id=' + projekcija.film.id +'">'+ projekcija.film.naziv +'</a>');
 				$('#datumIVreme').text(data.datumPrikazivanja);
 				$('#tipProjekcijeTd').text(projekcija.tipProjekcije);
 				$('#sala').text(projekcija.sala.naziv);
@@ -53,6 +53,26 @@ $(document).ready(function(){
 			}
 	});
 }
+	
+	
+	function getKarte(){
+		$.get('KartaServlet',{'idProjekcije' : id, 'action' : 'getAll'}, function(data){
+			if(data.status = "success"){
+				var karte = data.karte;
+				for(i in karte){
+					var dt = new Date(karte[i].vremeProdaje);
+					var datum = dt.getDate()+'-'+(dt.getMonth()+1)+'-'+dt.getFullYear();
+					var vreme = dt.getHours() + ":" + dt.getMinutes()
+					$('#karteZaProjekciju').append(
+							'<tr>'+
+								'<td><a href=karta.html?id='+karte[i].id + '>' + datum + " " + vreme + '</td>'+
+								'<td><a href="mojnalog.html?korIme='+ karte[i].kupacKarte.korisnickoIme +'">' + karte[i].kupacKarte.korisnickoIme + '</td>' +
+							'</tr>'
+					)
+				}
+			}
+		});
+	}
 	
 	
 	
@@ -68,7 +88,7 @@ $(document).ready(function(){
 	});
 	
 	$('#obrisiBtn').on('click', function(event) {
-		$.post('ProjekcijaServlet',{'id':id, 'status' : 'delete'} ,function(data) {
+		$.post('ProjekcijaServlet',{'id':id, 'action' : 'delete'} ,function(data) {
 			if(data.status == 'success'){
 				window.location.replace('pocetna.html');
 				return;
@@ -85,4 +105,5 @@ $(document).ready(function(){
 	
 	menuBar();
 	getTable();
+	getKarte()
 });

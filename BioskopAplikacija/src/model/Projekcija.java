@@ -11,12 +11,12 @@ public class Projekcija {
 	private Film film;
 	private Sala sala;
 	private String tipProjekcije;
-	private Date datumPrikazivanja;
+	private String datumPrikazivanja;
 	private int cenaKarte;
 	private Korisnik admin;
 	private boolean obrisan;
 	
-	public Projekcija(int id, Film film, Sala sala, String tipProjekcije, Date datumPrikazivanja,
+	public Projekcija(int id, Film film, Sala sala, String tipProjekcije, String datumPrikazivanja,
 			 int cenaKarte, Korisnik admin, boolean obrisan) {
 		super();
 		this.id = id;
@@ -61,11 +61,11 @@ public class Projekcija {
 		this.tipProjekcije = tipProjekcije;
 	}
 
-	public Date getDatumPrikazivanja() {
+	public String getDatumPrikazivanja() {
 		return datumPrikazivanja;
 	}
 
-	public void setDatumPrikazivanja(Date datumPrikazivanja) {
+	public void setDatumPrikazivanja(String datumPrikazivanja) {
 		this.datumPrikazivanja = datumPrikazivanja;
 	}
 

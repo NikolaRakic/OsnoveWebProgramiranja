@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import constants.Constants;
 import model.Karta;
 import model.Korisnik;
 import model.Projekcija;
@@ -29,7 +32,8 @@ public class KartaDao {
 				int index = 2;
 				Projekcija projekcija = ProjekcijaDao.getOne(rset.getInt(index++));
 				Sediste sediste = SedisteDao.getOne(rset.getInt(index++));
-				Date vremeProdaje = rset.getDate(index++);
+				String vremeProdajeStr = rset.getString(index++);
+				Date vremeProdaje = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(vremeProdajeStr);
 				Korisnik kupacKarte = KorisnikDao.getOne(rset.getString(index++));
 				boolean obrisan = rset.getBoolean(index++);
 				
@@ -37,6 +41,9 @@ public class KartaDao {
 			}
 		}catch (SQLException ex) {
 			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} catch (ParseException ex) {
+			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}finally {
 			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
@@ -46,16 +53,17 @@ public class KartaDao {
 	}
 	
 	
-	public static ArrayList<Karta> getAll(){
+	public static ArrayList<Karta> getAll(int projekcijaId){
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Karta> karte = new ArrayList<Karta>();
 		
 		try {
-			String query = "SELECT * FROM karte";
+			String query = "SELECT * FROM karte WHERE projekcijaID = ?";
 			
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, projekcijaId);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -63,7 +71,8 @@ public class KartaDao {
 				int id = rset.getInt(index++);
 				Projekcija projekcija = ProjekcijaDao.getOne(rset.getInt(index++));
 				Sediste sediste = SedisteDao.getOne(rset.getInt(index++));
-				Date vremeProdaje = rset.getDate(index++);
+				String vremeProdajeStr = rset.getString(index++);
+				Date vremeProdaje = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(vremeProdajeStr);
 				Korisnik kupacKarte = KorisnikDao.getOne(rset.getString(index++));
 				boolean obrisan = rset.getBoolean(index++);
 				
@@ -72,6 +81,9 @@ public class KartaDao {
 			return karte;
 		} catch (SQLException ex) {
 			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} catch (ParseException ex) {
+			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}finally {
 			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}

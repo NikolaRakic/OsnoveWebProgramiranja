@@ -21,10 +21,10 @@ $(document).ready(function(){
 			console.log(data.status);
 			
 			if(data.status == 'NEPRIJAVLJEN'){
+				alert("Niste prijavljeni!");
+				window.location.replace('pocetna.html');
+				return;
 				
-				$('#odjava').remove();
-				$('#meni').append('<li id="prijava"><a href="prijava.html">Prijava</a></li>'+
-				  '<li id="registracija"><a href="registracija.html">Registracija</a></li>');
 				
 			}
 			else{

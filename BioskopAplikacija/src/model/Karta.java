@@ -69,6 +69,12 @@ public class Karta {
 	public void setObrisan(boolean obrisan) {
 		this.obrisan = obrisan;
 	}
+
+	@Override
+	public String toString() {
+		return "Karta [id=" + id + ", projekcija=" + projekcija + ", sediste=" + sediste + ", vremeProdaje="
+				+ vremeProdaje + ", kupacKarte=" + kupacKarte + ", obrisan=" + obrisan + "]";
+	}
 	
 	
 	
