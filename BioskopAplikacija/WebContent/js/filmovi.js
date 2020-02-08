@@ -1,3 +1,93 @@
+function sortiraj(){
+	vrednostSortiranja = $('#sort').val();
+	nacinSortiranja = $('#redosled').val();
+	
+	var json = {
+			'action' : 'sort',
+			'vrednostSortiranja' : vrednostSortiranja,
+			'nacinSortiranja' : nacinSortiranja
+	}
+	
+	$('#tbodyid').empty();
+	$.get('FilmServlet', json, function(data){
+	if(data.status == 'success'){
+			
+			var filmovi = data.filmovi;
+	
+			for(i in filmovi){
+				
+				$('#tbodyid').append(
+						'<tr>'+
+							'<td><a href ="film.html?id=' + filmovi[i].id +'">'+ filmovi[i].naziv +'</td>'+
+							'<td>'+ filmovi[i].reziser +'</td>'+
+							'<td>'+ filmovi[i].glumci  +'</td>'+
+							'<td>'+ filmovi[i].zanr  +'</td>'+
+							'<td>'+ filmovi[i].trajanje  +"min" + '</td>'+
+							'<td>'+ filmovi[i].distributer  +'</td>'+
+							'<td>'+ filmovi[i].zemlja  +'</td>'+
+							'<td>'+ filmovi[i].godinaProizvodnje  +'</td>'+
+							'<td>'+ filmovi[i].opis  +'</td>'+
+						'</tr>'
+						)
+					
+			}
+			
+		}
+		else{
+			
+		}
+		event.preventDefault();
+	});
+};
+
+
+
+
+function pretraga(){
+pretragaInput = $('#pretragaInput').val();
+	
+	var json = {
+			'action' : 'pretraga',
+			'pretragaInput' : pretragaInput
+			
+	}
+	
+	$('#tbodyid').empty();
+	$.get('FilmServlet', json, function(data){
+	if(data.status == 'success'){
+			
+			var filmovi = data.filmovi;
+			
+			for(i in filmovi){
+				
+				
+				$('#tbodyid').append(
+						'<tr>'+
+							'<td><a href ="film.html?id=' + filmovi[i].id +'">'+ filmovi[i].naziv +'</td>'+
+							'<td>'+ filmovi[i].reziser +'</td>'+
+							'<td>'+ filmovi[i].glumci  +'</td>'+
+							'<td>'+ filmovi[i].zanr  +'</td>'+
+							'<td>'+ filmovi[i].trajanje  +"min" + '</td>'+
+							'<td>'+ filmovi[i].distributer  +'</td>'+
+							'<td>'+ filmovi[i].zemlja  +'</td>'+
+							'<td>'+ filmovi[i].godinaProizvodnje  +'</td>'+
+							'<td>'+ filmovi[i].opis  +'</td>'+
+						'</tr>'
+						)
+					
+			}
+			
+		}
+		else{
+			
+		}
+		event.preventDefault();
+	});
+};
+
+
+
+
 $(document).ready(function(){
 	
 	$('#odjavaLink').on('click', function(event) {
@@ -52,7 +142,7 @@ $(document).ready(function(){
 			var filmovi = data.filmovi;
 			for(i in filmovi){
 				if(filmovi[i].obrisan == false){
-					$('#filmovi').append(
+					$('#tbodyid').append(
 							'<tr>'+
 								'<td><a href ="film.html?id=' + filmovi[i].id +'">'+ filmovi[i].naziv +'</td>'+
 								'<td>'+ filmovi[i].reziser +'</td>'+

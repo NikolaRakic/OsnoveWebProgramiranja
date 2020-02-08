@@ -122,4 +122,14 @@
     <servlet-name>KartaServlet</servlet-name>
     <url-pattern>/KartaServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SedisteServlet</display-name>
+    <servlet-name>SedisteServlet</servlet-name>
+    <servlet-class>servlets.SedisteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SedisteServlet</servlet-name>
+    <url-pattern>/SedisteServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

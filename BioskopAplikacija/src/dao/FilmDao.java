@@ -54,6 +54,152 @@ public class FilmDao {
 		return null;
 	}
 	
+	
+	
+	
+	
+	
+	
+	public static List<Film> sort(String vrednostSortiranja, String nacinSortiranja){
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Film> filmovi = new ArrayList<Film>();
+		String query = "SELECT * FROM filmovi WHERE obrisan = '0'";
+		String sortQuery = "ORDER BY naziv";
+		try {
+			
+			
+			if (vrednostSortiranja != null) {
+				switch (vrednostSortiranja) {
+				case "naziv":
+					if (nacinSortiranja.equals("DESC"))
+						sortQuery = " ORDER BY naziv DESC";
+					else
+						sortQuery = " ORDER BY naziv ";
+					break;
+				case "trajanje":
+					if (nacinSortiranja.equals("DESC"))
+						sortQuery = " ORDER BY trajanje DESC";
+					else
+						sortQuery = " ORDER BY trajanje ";
+					break;
+				case "zemlja":
+					if (nacinSortiranja.equals("DESC"))
+						sortQuery = " ORDER BY zemlja DESC";
+					else
+						sortQuery = " ORDER BY zemlja ";
+					break;
+				case "godinaProizvodnje":
+					if (nacinSortiranja.equals("DESC"))
+						sortQuery = " ORDER BY godinaProizvodnje DESC";
+					else
+						sortQuery = " ORDER BY godinaProizvodnje ";
+					break;
+				default:
+					break;
+				}
+			}
+				query += sortQuery;
+			
+				System.out.println(query);
+				
+			pstmt = conn.prepareStatement(query);
+			
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				int index = 1;
+				int id = rset.getInt(index++);
+				String naziv = rset.getString(index++);
+				String reziser = rset.getString(index++);
+				String glumci = rset.getString(index++);
+				String zanr = rset.getString(index++);
+				int trajanje = rset.getInt(index++);
+				String distributer = rset.getString(index++);
+				String zemlja = rset.getString(index++);
+				int godinaProizvodnje = rset.getInt(index++);
+				String opis = rset.getString(index++);
+				boolean obrisan = rset.getBoolean(index);
+				
+				filmovi.add(new Film(id, naziv, reziser, glumci, zanr, trajanje, distributer, zemlja, godinaProizvodnje, opis, obrisan));
+			}
+			return filmovi;
+			
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		}finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	public static List<Film> pretraga(String pretragaInput){
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Film> filmovi = new ArrayList<Film>();
+		String query = "SELECT * FROM filmovi WHERE obrisan = '0' ";
+		String pretragaQuery = null;
+		
+		
+		try {
+			if(pretragaInput != null) {
+				pretragaQuery = "AND naziv LIKE '%"+pretragaInput+"%' OR zanr LIKE '%"+pretragaInput+"%' OR trajanje LIKE '%"+pretragaInput+"%'"
+						+ "OR distributer LIKE '%"+pretragaInput+"%' OR zemlja LIKE '%"+pretragaInput+"%' OR godinaProizvodnje LIKE '%"+pretragaInput+"%'";
+			}
+			
+			query += pretragaQuery;
+			
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				int index = 1;
+				int id = rset.getInt(index++);
+				String naziv = rset.getString(index++);
+				String reziser = rset.getString(index++);
+				String glumci = rset.getString(index++);
+				String zanr = rset.getString(index++);
+				int trajanje = rset.getInt(index++);
+				String distributer = rset.getString(index++);
+				String zemlja = rset.getString(index++);
+				int godinaProizvodnje = rset.getInt(index++);
+				String opis = rset.getString(index++);
+				boolean obrisan = rset.getBoolean(index);
+				
+				filmovi.add(new Film(id, naziv, reziser, glumci, zanr, trajanje, distributer, zemlja, godinaProizvodnje, opis, obrisan));
+			}
+			return filmovi;
+			
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		}finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
 	public static Film getOne(int id) {
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement pstmt = null;

@@ -1,4 +1,102 @@
-function tipProjekcije(){
+var datumInput;
+function sortiraj(){
+	vrednostSortiranja = $('#sort').val();
+	nacinSortiranja = $('#redosled').val();
+	
+	var json = {
+			'action' : 'sort',
+			'datum' : datumInput,
+			'vrednostSortiranja' : vrednostSortiranja,
+			'nacinSortiranja' : nacinSortiranja
+	}
+	
+	$('#tbodyid').empty();
+	$.get('ProjekcijaServlet', json, function(data){
+	if(data.status == 'success'){
+			
+			var projekcije = data.projekcije;
+			
+			console.log(projekcije)
+			for(i in projekcije){
+				
+				
+				var dt = new Date(projekcije[i].datumPrikazivanja);
+				var datum = dt.getDate()+'-'+(dt.getMonth()+1)+'-'+dt.getFullYear();
+				var vreme = dt.getHours() + ":" + dt.getMinutes()
+		
+				$('#tbodyid').append(
+						'<tr id="redProjekcije">'+
+							'<td><a href ="film.html?id=' + projekcije[i].film.id +'">'+ projekcije[i].film.naziv +'</a></td>'+
+							'<td><a href ="projekcija.html?id=' + projekcije[i].id +'">'+ datum + " " + vreme +'</td>'+
+							'<td>'+ projekcije[i].tipProjekcije +'</td>'+
+							'<td>'+ projekcije[i].sala.naziv +'</td>'+
+							'<td>'+ projekcije[i].cenaKarte +" din" +'</td>'+
+						'</tr>'
+						)
+					
+			}
+			
+		}
+		else{
+			
+		}
+		event.preventDefault();
+	});
+};
+
+
+
+function pretraga(){
+	pretragaInput = $('#pretragaInput').val();
+	
+	var json = {
+			'action' : 'pretraga',
+			'datum' : datumInput,
+			'pretragaInput' : pretragaInput
+			
+	}
+	
+	$('#tbodyid').empty();
+	$.get('ProjekcijaServlet', json, function(data){
+	if(data.status == 'success'){
+			
+			var projekcije = data.projekcije;
+			
+			console.log(projekcije)
+			for(i in projekcije){
+				
+				
+				var dt = new Date(projekcije[i].datumPrikazivanja);
+				var datum = dt.getDate()+'-'+(dt.getMonth()+1)+'-'+dt.getFullYear();
+				var vreme = dt.getHours() + ":" + dt.getMinutes()
+		
+				$('#tbodyid').append(
+						'<tr id="redProjekcije">'+
+							'<td><a href ="film.html?id=' + projekcije[i].film.id +'">'+ projekcije[i].film.naziv +'</a></td>'+
+							'<td><a href ="projekcija.html?id=' + projekcije[i].id +'">'+ datum + " " + vreme +'</td>'+
+							'<td>'+ projekcije[i].tipProjekcije +'</td>'+
+							'<td>'+ projekcije[i].sala.naziv +'</td>'+
+							'<td>'+ projekcije[i].cenaKarte +" din" +'</td>'+
+						'</tr>'
+						)
+					
+			}
+			
+		}
+		else{
+			
+		}
+		event.preventDefault();
+	});
+};
+	
+	
+	
+
+
+
+
+function nadjiTipProjekcije(){
 	$.get('SalaServlet', {'action' : 'getAll'}, function(data){
 	nazivSale = $('#nazivSale').val();
 	for(i in data.sale){
@@ -19,15 +117,17 @@ function tipProjekcije(){
 }
 
 function pronadjiProjekcije(){
-	var datum = $('#datumInput').val();
+	datumInput = $('#datumInput').val();
+	
 	$('#tbodyid').empty();
 	
-	$.get('ProjekcijaServlet', {'action':'getAllForDate', 'datum':datum}, function(data){
+	$.get('ProjekcijaServlet', {'action':'getAllForDate', 'datum':datumInput}, function(data){
 		
 		if(data.status == 'success'){
 			
 			var projekcije = data.projekcije;
 			
+			console.log(projekcije)
 			for(i in projekcije){
 				
 				
@@ -120,6 +220,7 @@ $(document).ready(function(){
 				var vreme = $('#vremeInput').val();
 				var cenaKarte = $('#cenaKarte').val();
 				var nazivSale = $('#nazivSale').val();
+				var brojSedista = $('#brSedista').val();
 				
 				var filmId;
 				for(i in filmovi){
@@ -136,7 +237,8 @@ $(document).ready(function(){
 						'salaNaziv' : nazivSale,
 						'tipProjekcije' : tipProjekcije,
 						'datumPrikazivanja' : datum + " " + vreme,
-						'cenaKarte' : cenaKarte
+						'cenaKarte' : cenaKarte,
+						'brojSedista' : brojSedista
 						
 				}
 				
@@ -184,7 +286,7 @@ $(document).ready(function(){
 	function getTable(){
 		var datum = $('#datumInput').val();
 	
-		$.get('ProjekcijaServlet', {'action':'getAll'}, function(data){
+		$.get('ProjekcijaServlet', {'action':'getAllForDate'}, function(data){
 			var projekcije = data.projekcije;
 			
 			//console.log(projekcije);

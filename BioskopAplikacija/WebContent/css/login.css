@@ -262,8 +262,14 @@ table.Table1 tr:nth-child(even) {
 #izmeniBtn {
 	display: none;
 }
+#projekcijeZaFilm{
+	display: none;
+}
 #obrisiBtn {
 	display: none;
+}
+#kupiKartuBtn {
+	display : none;
 }
 #tipProjekcije{
 	display: none;
@@ -291,5 +297,16 @@ table.Table1 tr:nth-child(even) {
   border: 1px solid #ddd;
   
 }
+
+
+#vlasnikKarte1{
+	display: none;
+}
+
+
+#korisnikRadio{
+	display : none;
+}
+
 
 

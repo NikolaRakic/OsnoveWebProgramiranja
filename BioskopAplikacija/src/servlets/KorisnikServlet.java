@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 import dao.FilmDao;
 import dao.KorisnikDao;
 import model.Film;
@@ -56,7 +58,6 @@ public class KorisnikServlet extends HttpServlet {
 					Map<String, Object> data = new LinkedHashMap<>();
 					String action = request.getParameter("action");
 					if(action.equals("ulogovaniKorisnik")) {
-			
 							data.put("ulogovaniKorisnikUloga", ulogovaniKorisnik.getUloga());
 							data.put("korisnickoIme", ulogovaniKorisnik.getKorisnickoIme());
 							request.setAttribute("data", data);
@@ -97,6 +98,43 @@ public class KorisnikServlet extends HttpServlet {
 						data.put("korisnici", neobrisaniKorisnici);
 						request.setAttribute("data", data);
 						request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+					}
+					
+					
+					if(action.equals("sort")) {
+						String vrednostSortiranja = request.getParameter("vrednostSortiranja");
+						String nacinSortiranja = request.getParameter("nacinSortiranja");
+						
+						System.out.println("vrednost " + vrednostSortiranja);
+						System.out.println("nacin " + nacinSortiranja);
+						
+						 List<Korisnik> korisnici  = KorisnikDao.sort(vrednostSortiranja, nacinSortiranja);
+					
+						
+						
+						Map<String, Object> data1 = new LinkedHashMap<>();
+						data1.put("korisnici", korisnici);
+						request.setAttribute("data", data1);
+						request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+					}
+					
+					
+					if(action.equals("pretraga")) {
+						String pretragaInput = request.getParameter("pretragaInput");
+						
+						List<Korisnik> korisnici = new ArrayList<Korisnik>();
+						
+						
+						korisnici = KorisnikDao.pretraga(pretragaInput);
+							
+						
+						
+						Map<String, Object> data1 = new LinkedHashMap<>();
+						data1.put("korisnici", korisnici);
+						request.setAttribute("data", data1);
+						request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+						
+						
 					}
 					
 					

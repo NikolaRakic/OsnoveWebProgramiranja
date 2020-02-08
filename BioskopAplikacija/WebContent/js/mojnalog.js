@@ -44,6 +44,8 @@ $(document).ready(function(){
 				
 				if(ulogovaniKorisnik == korIme){
 					$('#izmeniBtn').show();
+					$('#korisnikRadio').show();
+				
 				}
 				
 				if(ulogovaniKorisnikUloga == 'ADMIN'){
@@ -53,6 +55,9 @@ $(document).ready(function(){
 									'<li><a href="karte.html">Sve karte</a></li>');
 					$('#izmeniBtn').show();
 					$('#obrisiBtn').show();
+					$('#adminLabel').show();
+					$('#adminRadio').show();
+					
 				}
 				
 			}
@@ -103,7 +108,9 @@ $(document).ready(function(){
 		$('#datumRegistracije1').val(datumReg);
 		
 		if(korisnik.uloga == "KORISNIK"){
-			$('#korisnik').prop('checked',true);
+			$('#korisnikRadio').prop('checked',true);
+			$('#adminLabel').hidden;
+			document.getElementById("adminRadio").disabled = true;
 		}
 		
 		

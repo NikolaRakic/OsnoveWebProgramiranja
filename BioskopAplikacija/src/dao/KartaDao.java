@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.mysql.jdbc.PreparedStatement.ParseInfo;
+
 import constants.Constants;
 import model.Karta;
 import model.Korisnik;
@@ -22,10 +24,11 @@ public class KartaDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		try {
-			String query = "SELECT * FROM karte WHERE id = ?";
+			String query = "SELECT * FROM karte WHERE id = ? AND obrisan = ?";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, id);
+			pstmt.setBoolean(2, false);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -60,10 +63,11 @@ public class KartaDao {
 		ArrayList<Karta> karte = new ArrayList<Karta>();
 		
 		try {
-			String query = "SELECT * FROM karte WHERE projekcijaID = ?";
+			String query = "SELECT * FROM karte WHERE projekcijaID = ? AND obrisan = ?";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, projekcijaId);
+			pstmt.setBoolean(2, false);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -99,15 +103,14 @@ public class KartaDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			String query = "INSERT INTO karte (projekcijaID, sedisteID, vremeProdaje, kupacKarte)"
-					+ "VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO karte (projekcijaID, sedisteID,  kupacKarte)"
+					+ "VALUES (?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(query);
 			
 			int index = 1;
 			pstmt.setInt(index++, karta.getProjekcija().getId());
-			pstmt.setInt(index++, karta.getSediste().getId());//dodati ID u sediste model
-			pstmt.setDate(index++, (java.sql.Date) karta.getVremeProdaje());
+			pstmt.setInt(index++, karta.getSediste().getId());
 			pstmt.setString(index++, karta.getKupacKarte().getKorisnickoIme());
 			
 			return pstmt.executeUpdate() == 1;
@@ -128,7 +131,7 @@ public class KartaDao {
 		
 		try {
 			String query = "UPDATE karte SET projekcijaId = ?, sedisteID = ?, kupacKarte = ?";
-pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(query);
 			
 			int index = 1;
 			pstmt.setInt(index++, karta.getProjekcija().getId());
@@ -145,6 +148,62 @@ pstmt = conn.prepareStatement(query);
 		}
 
 		return false;
+	}
+	
+	
+	public static boolean delete(int id) {
+		Connection conn = ConnectionManager.getConnection();	
+		PreparedStatement pstmt = null;
+		
+		try {
+			String query = "UPDATE karte SET obrisan = ? WHERE id = ?";
+			pstmt = conn.prepareStatement(query);
+			
+			
+			pstmt.setBoolean(1, true);
+			pstmt.setInt(2, id);
+			
+			
+			return pstmt.executeUpdate() == 1;
+		}catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+
+		return false;
+	}
+	
+	
+	public static int getSedisteIdZaKartu(int idKarte) {
+		Connection conn = ConnectionManager.getConnection();	
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+			try {
+				String query = "SELECT sedisteID FROM karte WHERE id = ? ";
+				pstmt = conn.prepareStatement(query);
+				
+				
+				
+				int index = 1;
+				pstmt.setInt(index++, idKarte);
+			
+				rset = pstmt.executeQuery();
+				
+				int rezultat =  ((Number) rset.getObject(1)).intValue();
+				System.out.println("REZULTAT JE :"  + rezultat);
+				
+				return rezultat;
+				
+		}catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		}
+		finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+			}
+			return (Integer) null;
 	}
 	
 

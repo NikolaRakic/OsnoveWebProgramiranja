@@ -23,7 +23,21 @@
 	
 	
 		  <input type="date" onchange="pronadjiProjekcije()" name="date" id="datumInput">
-		 <!-- <button  onClick="pronadjiFilmove()" id="pronadjiBtn" value="Pronadji" />  -->
+		  <label id="labela"><font color="white">Sortiraj po:</font></label>
+			<select onchange="sortiraj()" id="sort">
+				<option value="datumPrikazivanja">Datumu</option>
+				<!--  <option value="naziv">Nazivu filma</option>-->
+				<option value="tipProjekcije">Tipu projekcije</option>
+				<option value="salaNaziv">Sali</option>
+				<option value="cenaKarte">Ceni</option>
+			</select>
+			<select  onchange="sortiraj()" id="redosled">
+				<option value="ASC">Rastuci</option>
+				<option value="DESC">Opadajuci</option>
+			</select>
+			
+			<input type="text" onkeyup="pretraga()" placeholder="pretraga" id="pretragaInput">
+		 
 	
 	<table id="projekcije" class="Table">
 		<tr><th>Naziv filma</th><th>Datum i vreme prikazivanja</th><th>Tip projekcije</th><th>Sala</th><th>Cena</th></tr>
@@ -41,13 +55,16 @@
 			<label for="nazivFilma" id="labela">Naziv Filma</label>
 			<select id="nazivFilma"></select>
 			<label for="nazivSale" id="labela">Naziv Sale</label>
-			<select  onchange="tipProjekcije" id="nazivSale"></select>
+			<select  onchange="nadjiTipProjekcije()" id="nazivSale"></select>
 			<label for="Datum i vreme prikazivanja" id="labela">Datum i vreme prikazivanja</label>
-			<!--  <input type="datetime-local" id="datumIVreme"> -->
+			
 			<input type="date" name="date1" id="datumInput1">
 			<input type="time" name="time" id="vremeInput">
 			<label for="cenaKarte" id="labela">Cena karte</label>
-			<input type="number" id="cenaKarte">
+			<input type="number" id="cenaKarte" style="width: 7em">
+			<label for="brojSedista" id="labela">Broj sedista</label>
+			<input type="number" id="brSedista" style="width: 7em">
+			
 			
 			<select id="tipProjekcije"></select>
 			<input type="submit" id="dodajBtn2" value="Dodaj">

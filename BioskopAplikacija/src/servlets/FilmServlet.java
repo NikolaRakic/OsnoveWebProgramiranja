@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.FilmDao;
+import dao.ProjekcijaDao;
 import model.Film;
+import model.Projekcija;
 
 /**
  * Servlet implementation class FilmServlet
@@ -56,10 +59,45 @@ public class FilmServlet extends HttpServlet {
 			}catch (Exception ex) {
 				ex.printStackTrace();
 				request.getRequestDispatcher("./FailureServlet").forward(request, response);
-			}
+			}	
 			
+		}
+		
+		
+		if(action.equals("sort")) {
+			
+			String vrednostSortiranja = request.getParameter("vrednostSortiranja");
+			String nacinSortiranja = request.getParameter("nacinSortiranja");
+			
+			System.out.println("vrednost " + vrednostSortiranja);
+			System.out.println("nacin " + nacinSortiranja);
+			
+			 List<Film> filmovi  = FilmDao.sort(vrednostSortiranja, nacinSortiranja);
+		
+			
+			
+			Map<String, Object> data = new LinkedHashMap<>();
+			data.put("filmovi", filmovi);
+			request.setAttribute("data", data);
+			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			
+		}
+		
+		
+		if(action.equals("pretraga")) {
+			String pretragaInput = request.getParameter("pretragaInput");
+			
+			List<Film> filmovi = new ArrayList<Film>();
+			
+			
+			filmovi = FilmDao.pretraga(pretragaInput);
 				
 			
+			
+			Map<String, Object> data = new LinkedHashMap<>();
+			data.put("filmovi", filmovi);
+			request.setAttribute("data", data);
+			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
 			
 			
 		}

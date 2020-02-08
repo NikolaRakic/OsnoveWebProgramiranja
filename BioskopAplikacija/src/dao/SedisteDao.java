@@ -45,7 +45,7 @@ public class SedisteDao {
 	
 	
 	
-	public static ArrayList<Sediste> getSlobodnaSedistaZaProjekciju(String projekcijaId){
+	public static ArrayList<Sediste> getSlobodnaSedistaZaProjekciju(int projekcijaId){
 		Connection conn = ConnectionManager.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -54,7 +54,7 @@ public class SedisteDao {
 			String query = "SELECT * FROM sedista WHERE projekcijaId = ? and zauzeto = ?";
 			
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, projekcijaId);
+			pstmt.setInt(1, projekcijaId);
 			pstmt.setBoolean(2, false);
 			rset = pstmt.executeQuery();
 			
@@ -104,6 +104,30 @@ public class SedisteDao {
 	}
 	
 	
+	
+	public static boolean oslobodiSediste(int id) {
+		Connection conn = ConnectionManager.getConnection();	
+		PreparedStatement pstmt = null;
+		
+		try {
+			String query = "UPDATE sedista SET zauzeto = ? WHERE  id = ?";
+			pstmt = conn.prepareStatement(query);
+			
+			int index = 1;
+			pstmt.setBoolean(index++, false);
+			pstmt.setInt(index++, id);
+			
+			return pstmt.executeUpdate() == 1;
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+		return false;
+	}
+	
+	
 	public static int brojSlobodnihSedista(int projekcijaId) {
 		Connection conn = ConnectionManager.getConnection();	
 		PreparedStatement pstmt = null;
@@ -134,6 +158,36 @@ public class SedisteDao {
 			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
 			}
 			return (Integer) null;
+	}
+	
+	
+	public static boolean dodajSedistaZaProjekciju(int projekcijaId, int brojSedista) {
+		Connection conn = ConnectionManager.getConnection();	
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			for (int i = 1; i < brojSedista+1; i++) {
+				String query = "INSERT INTO sedista (redniBroj, projekcijaId) VALUES (?,?)";
+				pstmt = conn.prepareStatement(query);
+				
+				int index = 1;
+				pstmt.setInt(index++, i);
+				pstmt.setInt(index++, projekcijaId);
+				
+				pstmt.executeUpdate();
+			}
+			
+			
+			
+			return  true;
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+		return false;
 	}
 		
 

@@ -18,6 +18,7 @@ $(document).ready(function(){
 				
 				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
 						'<li><a href="mojeKarte.html">Moje karte</a></li>');
+				$('#projekcijeZaFilm').show();
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
 					
 					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>'+
@@ -25,6 +26,7 @@ $(document).ready(function(){
 									'<li><a href="karte.html">Sve karte</a></li>');
 					$('#izmeniBtn').show();
 					$('#obrisiBtn').show();
+					
 				}
 				
 			}
@@ -152,6 +154,11 @@ $(document).ready(function(){
 
 		event.preventDefault();
 		return false;
+	});
+	
+	
+	$('#projekcijeZaFilm').on('click', function(event) {
+		window.location.replace('projekcijezafilm.html?id=' + id);
 	});
 	
 	

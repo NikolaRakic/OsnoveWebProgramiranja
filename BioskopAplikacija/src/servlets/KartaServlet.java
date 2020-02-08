@@ -11,7 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.KartaDao;
+import dao.KorisnikDao;
+import dao.ProjekcijaDao;
+import dao.SedisteDao;
 import model.Karta;
+import model.Korisnik;
+import model.Projekcija;
+import model.Sediste;
 
 /**
  * Servlet implementation class KartaServlet
@@ -62,8 +68,38 @@ public class KartaServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String action = request.getParameter("action");
+
+		if(action.equals("delete")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			if(KartaDao.delete(id)) {
+				Karta obrisanaKarta = KartaDao.getOne(id);
+				int idSedista = KartaDao.getSedisteIdZaKartu(id);
+				SedisteDao.oslobodiSediste(idSedista);
+				
+				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				System.out.println("USPEO");
+			}else {
+				request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				System.out.println("NIJE");
+			}
+		}
+		
+		if(action.equals("add")) {
+			int idProjekcije = Integer.parseInt(request.getParameter("idProjekcije"));
+			String kupacKarteKorIme = request.getParameter("kupacKarte");
+			int sedisteId = Integer.parseInt(request.getParameter("sediste"));
+			
+			Projekcija projekcija = ProjekcijaDao.getOne(idProjekcije);
+			Sediste sediste = SedisteDao.getOne(sedisteId);
+			Korisnik kupacKarte = KorisnikDao.getOne(kupacKarteKorIme);
+			
+			if(KartaDao.add(new Karta(0, projekcija, sediste, null, kupacKarte, false))) {
+				SedisteDao.zauzmiSediste(idProjekcije, sedisteId);
+			}
+		}
+		
 	}
 
 }

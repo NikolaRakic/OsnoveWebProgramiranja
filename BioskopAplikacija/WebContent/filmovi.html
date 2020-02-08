@@ -20,10 +20,30 @@
 	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
 	</ul>
 	
+	
+	  
+	
 	<h2>Filmovi:</h2>
+	
+	
+	
+	<label id="labela"><font color="white">Sortiraj po:</font></label>
+			<select onchange="sortiraj()" id="sort">
+				<option value="naziv">Nazivu</option>
+				<option value="trajanje">Trajanju</option>
+				<option value="zemlja">Zemlji porekla</option>
+				<option value="godinaProizvodnje">Godini proizvodnje</option>
+			</select>
+			<select  onchange="sortiraj()" id="redosled">
+				<option value="ASC">Rastuci</option>
+				<option value="DESC">Opadajuci</option>
+			</select>
+			
+			<input type="text" onkeyup="pretraga()" placeholder="pretraga" id="pretragaInput">
 	
 	<table id="filmovi" class="Table">
 		<tr><th>Naziv filma</th><th>Reziser</th><th>Glumci</th><th>Zanr</th><th>Trajanje</th><th>Distributer</th><th>Zemlja</th><th>Godina</th><th>Opis</th></tr>
+		<tbody id="tbodyid"></tbody>
 	</table>
 	
 	<div class="col-12" id="divButton">

@@ -1,5 +1,6 @@
 package servlets;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,23 +47,55 @@ public class ProjekcijaServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String action = request.getParameter("action");
-	
-			if(action.equals("getAll")) {
-				java.util.Date danasnjiDatum = new java.util.Date();
-				String danasnjiDatumStr= new SimpleDateFormat("yyyy-MM-dd").format(danasnjiDatum);
-				
-				
-				List<Projekcija> projekcije = ProjekcijaDao.getAllForDate(danasnjiDatumStr);
-				Map<String, Object> data = new LinkedHashMap<>();
-				data.put("projekcije", projekcije);
-				request.setAttribute("data", data);
-				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
-			}
+			System.out.println(action);
 			
 			if(action.equals("getAllForDate")) {
 				String datumInput = request.getParameter("datum");
+				if(datumInput == null) {
+					
+					java.util.Date danasnjiDatum = new java.util.Date();
+					String danasnjiDatumStr= new SimpleDateFormat("yyyy-MM-dd").format(danasnjiDatum);
+					
+					List<Projekcija> projekcije = ProjekcijaDao.getAllForDate(danasnjiDatumStr, null, null);
+					
+					Map<String, Object> data = new LinkedHashMap<>();
+					data.put("projekcije", projekcije);
+					request.setAttribute("data", data);
+					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				}
+				else {
+					List<Projekcija> projekcije = ProjekcijaDao.getAllForDate(datumInput, null, null);			
+					
+					Map<String, Object> data = new LinkedHashMap<>();
+					data.put("projekcije", projekcije);
+					request.setAttribute("data", data);
+					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				}
 				
-				List<Projekcija> projekcije = ProjekcijaDao.getAllForDate(datumInput);			
+				
+			}
+			
+			if(action.equals("sort")) {
+				
+				String vrednostSortiranja = request.getParameter("vrednostSortiranja");
+				String nacinSortiranja = request.getParameter("nacinSortiranja");
+				String datumInput = request.getParameter("datum");
+				
+				
+				System.out.println("vrednost " + vrednostSortiranja);
+				System.out.println("nacin " + nacinSortiranja);
+				System.out.println("DATUM JE : " + datumInput);
+				List<Projekcija> projekcije = new ArrayList<Projekcija>();
+				if(datumInput == null) {
+					java.util.Date danasnjiDatum = new java.util.Date();
+					String danasnjiDatumStr= new SimpleDateFormat("yyyy-MM-dd").format(danasnjiDatum);
+					
+					projekcije = ProjekcijaDao.getAllForDate(danasnjiDatumStr, vrednostSortiranja, nacinSortiranja);
+				}
+				else {
+					projekcije = ProjekcijaDao.getAllForDate(datumInput, vrednostSortiranja, nacinSortiranja);
+				}
+				
 				
 				Map<String, Object> data = new LinkedHashMap<>();
 				data.put("projekcije", projekcije);
@@ -70,6 +103,50 @@ public class ProjekcijaServlet extends HttpServlet {
 				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
 				
 			}
+			
+			
+			
+			
+			if(action.equals("pretraga")) {
+				String pretragaInput = request.getParameter("pretragaInput");
+				String datumInput = request.getParameter("datum");
+				List<Projekcija> projekcije = new ArrayList<Projekcija>();
+				
+				if(datumInput == null) {
+					java.util.Date danasnjiDatum = new java.util.Date();
+					String danasnjiDatumStr= new SimpleDateFormat("yyyy-MM-dd").format(danasnjiDatum);
+					
+					projekcije = ProjekcijaDao.pretraga(pretragaInput, danasnjiDatumStr);
+					
+				}
+				else {
+					projekcije = ProjekcijaDao.pretraga(pretragaInput, datumInput);
+					
+				}
+				
+				Map<String, Object> data = new LinkedHashMap<>();
+				data.put("projekcije", projekcije);
+				request.setAttribute("data", data);
+				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				
+				
+			}
+			
+			
+			
+			if(action.equals("getAllForMovie")) {
+				int idFilma = Integer.parseInt(request.getParameter("idFilma"));
+				System.out.println("ID FILMA JE: " + idFilma);
+				
+				List<Projekcija> projekcije = ProjekcijaDao.getAllForMovie(idFilma);			
+				
+				Map<String, Object> data = new LinkedHashMap<>();
+				data.put("projekcije", projekcije);
+				request.setAttribute("data", data);
+				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				
+			}
+			
 			
 			if(action.equals("getOne")) {
 				int id = Integer.parseInt(request.getParameter("id"));
@@ -77,9 +154,6 @@ public class ProjekcijaServlet extends HttpServlet {
 				try {
 					Projekcija projekcija = ProjekcijaDao.getOne(id);
 					if(projekcija != null) {
-//						java.util.Date datumPrikazivanja =  projekcija.getDatumPrikazivanja();
-//						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
-//						String datumPrikazivanja1 = sdf.format(datumPrikazivanja);
 						
 						int brSlobodnihSedista = SedisteDao.brojSlobodnihSedista(projekcija.getId());
 						Map<String, Object> data = new LinkedHashMap<>();
@@ -118,7 +192,9 @@ public class ProjekcijaServlet extends HttpServlet {
 			String salaNaziv = request.getParameter("salaNaziv");	
 			System.out.println("pronadjen salaNaziv -> " +salaNaziv);
 			Sala sala = SalaDao.getOne(salaNaziv);
-			System.out.println("pronadjena sala -> " + sala.toString());
+			
+			int brojSedista = Integer.parseInt(request.getParameter("brojSedista"));
+			
 			
 			String tipProjekcije = request.getParameter("tipProjekcije");			
 			String datumPrikazivanja = request.getParameter("datumPrikazivanja");
@@ -140,8 +216,14 @@ public class ProjekcijaServlet extends HttpServlet {
 			String adminKorIme = (String) request.getSession().getAttribute("UlogovaniKorisnik");
 			Korisnik admin = KorisnikDao.getOne(adminKorIme);
 			Projekcija novaProjekcije = new Projekcija(1, film, sala, tipProjekcije, dateValidFormat, cenaKarte, admin, false);
+			
+			
+			
+			
 			try{
 				ProjekcijaDao.create(novaProjekcije);
+				int novaProjekcijaId = ProjekcijaDao.getMaxId();
+				SedisteDao.dodajSedistaZaProjekciju(novaProjekcijaId, brojSedista);
 			}catch (Exception ex) {
 				ex.printStackTrace();
 			}

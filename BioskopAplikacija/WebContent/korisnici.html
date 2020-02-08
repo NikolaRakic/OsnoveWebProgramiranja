@@ -22,8 +22,23 @@
 	
 	<h2 id="naslov">Korisnici:</h2>
 	
+	
+	<label id="labela"><font color="white">Sortiraj po:</font></label>
+			<select onchange="sortiraj()" id="sort">
+				<option value="korisnickoIme">Korisnickom imenu</option>
+				<option value="uloga">Ulozi</option>
+			</select>
+			<select  onchange="sortiraj()" id="redosled">
+				<option value="ASC">Rastuci</option>
+				<option value="DESC">Opadajuci</option>
+			</select>
+			
+			<input type="text" onkeyup="pretraga()" placeholder="pretraga" id="pretragaInput">
+			
+	
 	<table id="korisniciTable" class="Table">
 		<tr><th>Korisnicko ime</th><th>Datum i vreme registracije</th><th>Uloga</th></tr>
+		<tbody id="tbodyid"></tbody>
 	</table>
 
 </body>

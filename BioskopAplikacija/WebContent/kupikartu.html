@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 	<title>Bioskop Aplikacija</title>
 	<script src="js/jquery-3.2.1.js"></script>
-	<script src="js/karta.js"></script>
+	<script src="js/kupikartu.js"></script>
 	<link rel="stylesheet" href="css/login.css">
 	
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +13,7 @@
 </head>
 <body>
 
-
-	<ul id="meni">
+<ul id="meni">
 	  <li><a href="pocetna.html">Projekcije</a></li>
 	  <li><a href="filmovi.html">Filmovi</a></li>	  
 	    <li id = "odjava"><a href="#contact" id = "odjavaLink">Odjava</a></li>
@@ -22,7 +21,6 @@
 	<h2>Karta</h2>
 	
 	<table id="karta	Table" class="Table1">
-		
 		<tr>
 			<th>Naziv filma</th>
 			<td id="nazivFilma"></td>
@@ -33,30 +31,27 @@
 		</tr>
 		<tr>
 			<td>Tip projekcije</td>
-			<td id="tipProjekcijeKarta"></td>
+			<td id="tipProjekcije1"></td>
 		</tr>
 		<tr>
 			<td>Sala</td>
 			<td id="sala"></td>
 		</tr>
-		<tr>
-			<td>Sediste</td>
-			<td id="sediste"></td>
-		</tr>
+		
 		<tr>
 			<td>Cena</td>
 			<td id="cena"></td>
 		</tr>
-		<tr id = "vlasnikKarte1">
-			<td>Kupac karte</td>
-			<td id="vlasnikKarte"></td>
+		
+		<tr>
+			<td>Odaberite sediste</td>
+			<td><select id="sedista"></select></td>
 		</tr>
 		
 	</table>
-	
 	<div id="divButton">
-		<input type="submit" value="Obrisi" id="obrisiBtn">
-	</div>
+		<input type="submit" value="Kupi kartu" id="kupiKartuBtn">
+	</div>	
 
 </body>
 </html>

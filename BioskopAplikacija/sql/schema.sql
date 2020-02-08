@@ -1,23 +1,26 @@
-DROP TABLE IF EXISTS korisnici;
-DROP TABLE IF EXISTS sedista;
-DROP TABLE IF EXISTS filmovi
-DROP TABLE IF EXISTS projekcije;
-DROP TABLE IF EXISTS sale;
 DROP TABLE IF EXISTS karte;
+DROP TABLE IF EXISTS sedista;
+DROP TABLE IF EXISTS projekcije;
+DROP TABLE IF EXISTS filmovi;
+DROP TABLE IF EXISTS sale;
+DROP TABLE IF EXISTS korisnici;
+
+
+
+
 
 
 CREATE TABLE korisnici (
     korisnickoIme VARCHAR(36) NOT NULL,
     lozinka VARCHAR(36) NOT NULL,
-    datumRegistracije DATE NOT NULL,
+    datumRegistracije DATE DEFAULT (DATETIME('now','localtime')),
     uloga VARCHAR(10) NOT NULL DEFAULT 'KORISNIK',
     obrisan BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY(korisnickoIme)
 );
-
-INSERT INTO korisnici (korisnickoIme, lozinka, datumRegistracije, uloga) VALUES ("nikola", "123", "2019-12-12", "ADMIN");
-INSERT INTO korisnici (korisnickoIme, lozinka, datumRegistracije, uloga) VALUES ("mare", "123", "2019-12-12", "KORISNIK");
-INSERT INTO korisnici (korisnickoIme, lozinka, datumRegistracije, uloga) VALUES ("djole", "123", "2019-12-12", "KORISNIK");
+		INSERT INTO korisnici (korisnickoIme, lozinka, uloga) VALUES ("nikola", "123", "ADMIN");
+		INSERT INTO korisnici (korisnickoIme, lozinka, uloga) VALUES ("mare", "123", "KORISNIK");
+                          INSERT INTO korisnici (korisnickoIme, lozinka, uloga) VALUES ("djole", "123", "KORISNIK");
 
 CREATE TABLE filmovi (
 	id INTEGER PRIMARY KEY,
@@ -43,44 +46,18 @@ CREATE TABLE sale (
     PRIMARY KEY (naziv)
 );
 
-INSERT INTO sale (naziv, tipProjekcije) VALUES ("A1", "D2,D3,D4");
-INSERT INTO sale (naziv, tipProjekcije) VALUES ("A2", "D3");
-INSERT INTO sale (naziv, tipProjekcije) VALUES ("B1", "D3,D4");
-INSERT INTO sale (naziv, tipProjekcije) VALUES ("B2","D4");
+INSERT INTO sale (naziv, tipProjekcije) VALUES ("A1", "2D,3D,4D");
+INSERT INTO sale (naziv, tipProjekcije) VALUES ("A2", "3D");
+INSERT INTO sale (naziv, tipProjekcije) VALUES ("B1", "3D,4D");
+INSERT INTO sale (naziv, tipProjekcije) VALUES ("B2","4D");
 
-CREATE TABLE sedista (
-	id INTEGER PRIMARY KEY,
-	redniBroj INT NOT NULL,
-    salaNaziv VARCHAR(255) NOT NULL,
-    zauzeto BOOLEAN NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (salaNaziv) REFERENCES sale (naziv)
-);
-
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (1,"A1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (2,"A1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (3,"A1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (4,"A1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (1,"A2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (2,"A2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (3,"A2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (4,"A2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (1,"B1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (2,"B1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (3,"B1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (4,"B1");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (1,"B2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (2,"B2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (3,"B2");
-INSERT INTO sedista (redniBroj, salaNaziv) VALUES (4,"B2");
-INSERT INTO sedista (redniBroj, salaNaziv, zauzeto) VALUES (5,"B2", TRUE);
 
 CREATE TABLE projekcije (
 	id INTEGER PRIMARY KEY,
     filmID INTEGER NOT NULL,
     salaNaziv VARCHAR(255) NOT NULL,
     tipProjekcije VARCHAR(2),
-    datumPrikazivanja DATE NOT NULL,
-    vremePrikazivanja TIME NOT NULL,
+    datumPrikazivanja DATETIME NOT NULL,
     cenaKarte int NOT NULL,
     admin VARCHAR(36) NOT NULL,
     obrisan BOOLEAN NOT NULL DEFAULT FALSE,
@@ -89,16 +66,46 @@ CREATE TABLE projekcije (
     FOREIGN KEY (admin) REFERENCES korisnici (korisnickoIme)
     );
     
-INSERT INTO projekcije(filmID, salaNaziv, tipProjekcije, datumPrikazivanja, vremePrikazivanja, cenaKarte, admin) VALUES
-(1, "A1", "D3", "2020-02-19","19:30:00", 600, "nikola");
-INSERT INTO projekcije(filmID, salaNaziv, tipProjekcije, datumPrikazivanja, vremePrikazivanja, cenaKarte, admin) VALUES
-(2, "A2", "D2", "2020-02-22","13:30:00", 500, "nikola");
+INSERT INTO projekcije(filmID, salaNaziv, tipProjekcije, datumPrikazivanja, cenaKarte, admin) VALUES
+(1, "A1", "3D", "2020-02-19 16:30:00", 600, "nikola");
+INSERT INTO projekcije(filmID, salaNaziv, tipProjekcije, datumPrikazivanja, cenaKarte, admin) VALUES
+(2, "A2", "2D", "2020-02-16 21:00:00", 500, "nikola");
     
+
+
+CREATE TABLE sedista (
+	id INTEGER PRIMARY KEY,
+	redniBroj INT NOT NULL,
+    projekcijaId INTEGER(10) NOT NULL,
+    zauzeto BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (projekcijaId) REFERENCES projekcije (id)
+);
+
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (1,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (2,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (3,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (4,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (1,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (2,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (3,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (4,1);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (1,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (2,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (3,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (4,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (1,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (2,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (3,2);
+INSERT INTO sedista (redniBroj, projekcijaId) VALUES (4,2);
+INSERT INTO sedista (redniBroj, projekcijaId, zauzeto) VALUES (5,2, TRUE);
+
+
+
 CREATE TABLE karte (
 	id INTEGER PRIMARY KEY,
     projekcijaID INTEGER NOT NULL,
     sedisteID INTEGER NOT NULL,
-    vremeProdaje DATETIME,
+    vremeProdaje DATETIME DEFAULT (DATETIME('now','localtime')),
     kupacKarte VARCHAR(36) NOT NULL,
     obrisan BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (projekcijaID) REFERENCES projekcije (id),

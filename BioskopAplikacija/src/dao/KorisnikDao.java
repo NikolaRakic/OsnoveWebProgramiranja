@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import constants.Constants;
+import model.Film;
 import model.Korisnik;
 import enums.Uloga;
 
@@ -166,6 +167,152 @@ public class KorisnikDao {
 
 		return null;
 	}
+	
+	
+	
+	
+	
+	public static ArrayList<Korisnik> sort(String vrednostSortiranja, String nacinSortiranja) {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
+		String query = "SELECT * FROM korisnici WHERE obrisan = '0'";
+		String sortQuery = "ORDER BY korisnickoIme";
+		try {
+			if (vrednostSortiranja != null) {
+				switch (vrednostSortiranja) {
+				case "korisnickoIme":
+					if (nacinSortiranja.equals("DESC"))
+						sortQuery = " ORDER BY korisnickoIme DESC";
+					else
+						sortQuery = " ORDER BY korisnickoIme ";
+					break;
+				case "uloga":
+					if (nacinSortiranja.equals("DESC"))
+						sortQuery = " ORDER BY uloga DESC";
+					else
+						sortQuery = " ORDER BY uloga ";
+					break;
+				
+				default:
+					break;
+				}
+			}
+				query += sortQuery;
+			
+				System.out.println(query);
+
+			pstmt = conn.prepareStatement(query);
+			System.out.println(pstmt);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int index = 1;
+				String korisnickoIme = rset.getString(index++);
+				String lozinka = rset.getString(index++);
+				String datumRegistracijeStr = rset.getString(index++);
+	
+				Date datumRegistracije = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(datumRegistracijeStr);
+				
+				String uloga = Uloga.valueOf(rset.getString(index++).toUpperCase()).toString();
+				boolean obrisan = rset.getBoolean(index++);
+
+				Korisnik k = new Korisnik(korisnickoIme, lozinka, datumRegistracije, uloga, obrisan);
+				
+				korisnici.add(k);
+			}
+			return korisnici;
+
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rset.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+	
+	
+	
+	
+	
+	public static ArrayList<Korisnik> pretraga(String pretragaInput) {
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
+		String query = "SELECT * FROM korisnici WHERE obrisan = '0' ";
+		String pretragaQuery = null;
+		try {
+			if(pretragaInput != null) {
+				pretragaQuery = "AND korisnickoIme like '%"+pretragaInput+"%' OR uloga like '%"+pretragaInput+"%'";
+			}
+			query += pretragaQuery;
+			
+			System.out.println(query);
+			
+			pstmt = conn.prepareStatement(query);
+			
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				int index = 1;
+				String korisnickoIme = rset.getString(index++);
+				String lozinka = rset.getString(index++);
+				String datumRegistracijeStr = rset.getString(index++);
+	
+				Date datumRegistracije = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(datumRegistracijeStr);
+				
+				String uloga = Uloga.valueOf(rset.getString(index++).toUpperCase()).toString();
+				boolean obrisan = rset.getBoolean(index++);
+
+				Korisnik k = new Korisnik(korisnickoIme, lozinka, datumRegistracije, uloga, obrisan);
+				
+				korisnici.add(k);
+			}
+			return korisnici;
+
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rset.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+	
+	
+	
+	
 
 	public static boolean add(Korisnik korisnik) {
 	
