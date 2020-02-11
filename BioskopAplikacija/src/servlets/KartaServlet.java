@@ -39,16 +39,21 @@ public class KartaServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		String ulogovaniKorisnikKorIme = (String) request.getSession().getAttribute("UlogovaniKorisnik");
+		String ulogovaniKorisnikUloga = (String) request.getSession().getAttribute("UlogovaniKorisnikUloga");
 		
 		if(action.equals("getAll")) {
-			int idProjekcije = Integer.parseInt(request.getParameter("idProjekcije"));
+			if(ulogovaniKorisnikUloga.equals("ADMIN")) {
+				int idProjekcije = Integer.parseInt(request.getParameter("idProjekcije"));
+				
+				
+				List<Karta> karte = KartaDao.getAll(idProjekcije);
+				Map<String, Object> data = new LinkedHashMap<>();
+				data.put("karte", karte);
+				request.setAttribute("data", data);
+				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			}
 			
-			
-			List<Karta> karte = KartaDao.getAll(idProjekcije);
-			Map<String, Object> data = new LinkedHashMap<>();
-			data.put("karte", karte);
-			request.setAttribute("data", data);
-			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
 		}
 		
 		
@@ -56,24 +61,29 @@ public class KartaServlet extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("id"));
 			
 			Karta karta = KartaDao.getOne(id);
-		
-			Map<String, Object> data = new LinkedHashMap<>();
-			data.put("karta", karta);
-			request.setAttribute("data", data);
-			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			if(ulogovaniKorisnikUloga.equals("ADMIN") || ulogovaniKorisnikKorIme.equals(karta.getKupacKarte())) {
+				
+				Map<String, Object> data = new LinkedHashMap<>();
+				data.put("karta", karta);
+				request.setAttribute("data", data);
+				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			}
+			
 			
 		}
 		
 		
 		if(action.equals("getKarteZaKorisnika")) {
 			String korIme = request.getParameter("korIme");
-			System.out.println("DAJ KARTE ZA " + korIme);
-			ArrayList<Karta> karte = KartaDao.getKarteZaKorisnika(korIme);
+			if(ulogovaniKorisnikUloga.equals("ADMIN") || ulogovaniKorisnikKorIme.equals(korIme)) {
+				ArrayList<Karta> karte = KartaDao.getKarteZaKorisnika(korIme);
+				
+				Map<String, Object> data = new LinkedHashMap<>();
+				data.put("karte", karte);
+				request.setAttribute("data", data);
+				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			}
 			
-			Map<String, Object> data = new LinkedHashMap<>();
-			data.put("karte", karte);
-			request.setAttribute("data", data);
-			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
 		}
 	}
 
@@ -104,20 +114,26 @@ public class KartaServlet extends HttpServlet {
 		}
 		
 		if(action.equals("add")) {
-			if(!ulogovaniKorisnikKorIme.equals(null)) {
+				
 				int idProjekcije = Integer.parseInt(request.getParameter("idProjekcije"));
 				String kupacKarteKorIme = request.getParameter("kupacKarte");
 				int sedisteId = Integer.parseInt(request.getParameter("sediste"));
 				
-				Projekcija projekcija = ProjekcijaDao.getOne(idProjekcije);
-				Sediste sediste = SedisteDao.getOne(sedisteId);
-				Korisnik kupacKarte = KorisnikDao.getOne(kupacKarteKorIme);
 				
-				if(KartaDao.add(new Karta(0, projekcija, sediste, null, kupacKarte, false))) {
-					SedisteDao.zauzmiSediste(idProjekcije, sedisteId);
+				if(ulogovaniKorisnikUloga.equals("KORISNIK") && !(sedisteId == 0)) {
+					
+					Projekcija projekcija = ProjekcijaDao.getOne(idProjekcije);
+					Sediste sediste = SedisteDao.getOne(sedisteId);
+					Korisnik kupacKarte = KorisnikDao.getOne(kupacKarteKorIme);
+					
+					if(KartaDao.add(new Karta(0, projekcija, sediste, null, kupacKarte, false))) {
+						SedisteDao.zauzmiSediste(idProjekcije, sedisteId);
+					}
 				}
+					
+				
 			}
-		}
+		
 		
 	}
 

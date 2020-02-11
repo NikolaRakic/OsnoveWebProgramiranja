@@ -103,7 +103,7 @@ $(document).ready(function(){
 		$.get('KartaServlet',{'korIme' : korIme, 'action' : 'getKarteZaKorisnika'}, function(data){
 					
 				if(data.status == 'success'){
-					//alert("Uspeo je!")
+					
 					var karte = data.karte;
 					
 					

@@ -3,6 +3,7 @@ $(document).ready(function(){
 	
 	var id = window.location.search.slice(1).split('?')[0].split('=')[1];
 	var korIme;
+	var uloga;
 	
 	function menuBar(){
 		$.get('KorisnikServlet', {'action' : 'ulogovaniKorisnik'}, function(data){
@@ -19,6 +20,7 @@ $(document).ready(function(){
 				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>');
 				
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
+					uloga = data.ulogovaniKorisnikUloga;
 					
 					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>');
 					
@@ -52,18 +54,19 @@ $(document).ready(function(){
 					
 					var danasnjiDatum = new Date;
 					
-					if(sedista == "" || +danasnjiDatum >= +dt){
+					if(sedista == "" || +danasnjiDatum >= +dt || uloga == "ADMIN"){
 						
-						$('#kupiKartuBtn').hidden();
+						$('#kupiKartuBtn').hide();
 					}
 					else{
 						
 						$('#kupiKartuBtn').show();
+						for(i in sedista){
+							console.log(sedista[i].id)
+							$('#sedista').append("<option value='" + sedista[i].id + "'>"+sedista[i].redniBroj+"</option>");
+						}
 					}
-					for(i in sedista){
-						console.log(sedista[i].id)
-						$('#sedista').append("<option value='" + sedista[i].id + "'>"+sedista[i].redniBroj+"</option>");
-					}
+					
 				});
 				$('#sedista').append();
 			}
