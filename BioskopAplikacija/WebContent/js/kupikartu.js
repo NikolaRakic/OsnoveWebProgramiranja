@@ -16,14 +16,11 @@ $(document).ready(function(){
 			}
 			else{
 				
-				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
-						'<li><a href="mojeKarte.html">Moje karte</a></li>');
+				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>');
 				
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
 					
-					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>'+
-									'<li id="izvestavanje"><a href="izvestavanje.html">Izvestavanje</a></li>'+
-									'<li><a href="karte.html">Sve karte</a></li>');
+					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>');
 					
 					
 				}
@@ -52,8 +49,11 @@ $(document).ready(function(){
 				//sva sedista za projekciju koja nisu zauzeta
 				$.get('SedisteServlet',{'projekcijaId' : id, 'action' : 'getAll'}, function(data){
 					var sedista = data.slobodnaSedista;
-					if(sedista == ""){
-						alert("Nema slobodnih sedista!")
+					
+					var danasnjiDatum = new Date;
+					
+					if(sedista == "" || +danasnjiDatum >= +dt){
+						
 						$('#kupiKartuBtn').hidden();
 					}
 					else{
@@ -80,7 +80,6 @@ $(document).ready(function(){
 		var projekcijaId = id;
 		var kupacKarte = $('#nazivFilma').val();
 		var sediste = $('#sedista').val();
-		alert(sediste);
 		var json = {
 				'action' : 'add',
 				'idProjekcije' : id,

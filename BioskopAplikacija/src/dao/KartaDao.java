@@ -8,10 +8,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement.ParseInfo;
 
 import constants.Constants;
+import model.Film;
 import model.Karta;
 import model.Korisnik;
 import model.Projekcija;
@@ -96,6 +98,55 @@ public class KartaDao {
 
 		return null;
 	}
+	
+	
+	
+	
+	
+	public static ArrayList<Karta> getKarteZaKorisnika(String korIme){
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Karta> karte = new ArrayList<Karta>();
+		
+		try {
+			String query = "SELECT * FROM karte WHERE kupacKarte = ? AND obrisan = ?";
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, korIme);
+			pstmt.setBoolean(2, false);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				int index = 1;
+				int id = rset.getInt(index++);
+				Projekcija projekcija = ProjekcijaDao.getOne(rset.getInt(index++));
+				Sediste sediste = SedisteDao.getOne(rset.getInt(index++));
+				String vremeProdajeStr = rset.getString(index++);
+				Date vremeProdaje = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(vremeProdajeStr);
+				Korisnik kupacKarte = KorisnikDao.getOne(rset.getString(index++));
+				boolean obrisan = rset.getBoolean(index++);
+				
+				karte.add(new Karta(id, projekcija, sediste, vremeProdaje, kupacKarte, obrisan));
+			}
+			return karte;
+		} catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		} catch (ParseException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+			try {rset.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+		}
+
+		return null;
+	}
+	
+	
+	
+	
 
 	
 	public static boolean add(Karta karta) {
@@ -206,5 +257,14 @@ public class KartaDao {
 			return (Integer) null;
 	}
 	
-
+	
 }
+	
+	
+	
+	
+	
+
+	
+
+

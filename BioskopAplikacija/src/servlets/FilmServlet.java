@@ -110,12 +110,58 @@ public class FilmServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		String ulogovaniKorisnikKorIme = (String) request.getSession().getAttribute("UlogovaniKorisnik");
+		String ulogovaniKorisnikUloga = (String) request.getSession().getAttribute("UlogovaniKorisnikUloga");
 		
 		Film filmIzmenjen = null;
 		if(action.equals("edit")) {
-			try {
+			if(ulogovaniKorisnikUloga.equals("ADMIN")) {
+				try {
+					int id = Integer.parseInt(request.getParameter("id"));
+					String naziv = request.getParameter("naziv");
+					String reziser = request.getParameter("reziser");
+					String glumci = request.getParameter("glumci");
+					String zanr = request.getParameter("zanr");
+					int trajanje = Integer.parseInt(request.getParameter("trajanje"));
+					String distributer = request.getParameter("distributer");
+					String zemlja = request.getParameter("zemlja");
+					int godina = Integer.parseInt(request.getParameter("godina"));
+					String opis = request.getParameter("opis");
+					
+				
+					
+					filmIzmenjen = new Film(id, naziv, reziser, glumci, zanr, trajanje, distributer, zemlja, godina, opis, false);
+				}catch (Exception ex) {
+					ex.printStackTrace();
+					request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				}
+				
+				if(FilmDao.update(filmIzmenjen)) {
+					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				}
+			}
+									
+		}
+		
+		if(action.equals("delete")) {
+			if(ulogovaniKorisnikUloga.equals("ADMIN")) {
 				int id = Integer.parseInt(request.getParameter("id"));
-				String naziv = request.getParameter("naziv");
+				try {
+					if(FilmDao.delete(id)) {
+						request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+					}
+				}catch (Exception ex) {
+					ex.printStackTrace();
+					request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				}
+			}
+		}
+		
+		
+		
+		if(action.equals("add")) {
+			if(ulogovaniKorisnikUloga.equals("ADMIN")) {
+				String nazivFilma = request.getParameter("nazivFilma");
 				String reziser = request.getParameter("reziser");
 				String glumci = request.getParameter("glumci");
 				String zanr = request.getParameter("zanr");
@@ -125,54 +171,15 @@ public class FilmServlet extends HttpServlet {
 				int godina = Integer.parseInt(request.getParameter("godina"));
 				String opis = request.getParameter("opis");
 				
-			
-				
-				filmIzmenjen = new Film(id, naziv, reziser, glumci, zanr, trajanje, distributer, zemlja, godina, opis, false);
-			}catch (Exception ex) {
-				ex.printStackTrace();
-				request.getRequestDispatcher("./FailureServlet").forward(request, response);
-			}
-			
-			if(FilmDao.update(filmIzmenjen)) {
-				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
-			}
-									
-		}
-		
-		if(action.equals("delete")) {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			try {
-				if(FilmDao.delete(id)) {
-					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				Film film = new Film(0, nazivFilma, reziser, glumci, zanr, trajanje, distributer, zemlja, godina, opis, false);
+				try {
+					if(FilmDao.create(film)) {
+						request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+					}
+				}catch (Exception ex) {
+					ex.printStackTrace();
+					request.getRequestDispatcher("./FailureServlet").forward(request, response);
 				}
-			}catch (Exception ex) {
-				ex.printStackTrace();
-				request.getRequestDispatcher("./FailureServlet").forward(request, response);
-			}
-		}
-		
-		
-		
-		if(action.equals("add")) {
-			String nazivFilma = request.getParameter("nazivFilma");
-			String reziser = request.getParameter("reziser");
-			String glumci = request.getParameter("glumci");
-			String zanr = request.getParameter("zanr");
-			int trajanje = Integer.parseInt(request.getParameter("trajanje"));
-			String distributer = request.getParameter("distributer");
-			String zemlja = request.getParameter("zemlja");
-			int godina = Integer.parseInt(request.getParameter("godina"));
-			String opis = request.getParameter("opis");
-			
-			Film film = new Film(0, nazivFilma, reziser, glumci, zanr, trajanje, distributer, zemlja, godina, opis, false);
-			try {
-				if(FilmDao.create(film)) {
-					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
-				}
-			}catch (Exception ex) {
-				ex.printStackTrace();
-				request.getRequestDispatcher("./FailureServlet").forward(request, response);
 			}
 			
 		}

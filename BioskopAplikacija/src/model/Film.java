@@ -28,6 +28,15 @@ public class Film {
 		this.opis = opis;
 		this.obrisan = obrisan;
 	}
+	
+	
+
+	public Film(String naziv) {
+		super();
+		this.naziv = naziv;
+	}
+
+
 
 	public int getId() {
 		return id;

@@ -193,23 +193,7 @@ $(document).ready(function(){
 				$('#nazivSale').append("<option value='" + data.sale[i].naziv + "'>"+data.sale[i].naziv+"</option>");
 				
 			}
-//			$('#tipProjekcijeBtn').on('click', function(event){
-//				nazivSale = $('#nazivSale').val();
-//				for(i in data.sale){
-//					if(data.sale[i].naziv == nazivSale){
-//						$('#tipProjekcije').empty();
-//						var splitovan = data.sale[i].tipProjekcije.split(',');
-//						for(i in splitovan){
-//							$('#tipProjekcije').append("<option value='" + splitovan[i] + "'>"+splitovan[i]+"</option>");
-//						}
-//						
-//					}
-//				}
-//				
-//				$('#tipProjekcije').show();
-//				$('#dodajBtn2').show();
-//				event.preventDefault();
-//			});
+
 			
 			$('#dodajBtn2').on('click', function(event){
 				
@@ -267,13 +251,10 @@ $(document).ready(function(){
 			}
 			else{
 				
-				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
-						'<li><a href="mojeKarte.html">Moje karte</a></li>');
+				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>');
 				if(data.ulogovaniKorisnikUloga == 'ADMIN'){
 					
-					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>'+
-									'<li id="izvestavanje"><a href="izvestavanje.html">Izvestavanje</a></li>'+
-									'<li><a href="karte.html">Sve karte</a></li>');
+					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>');
 					$('#dodajBtn').show();
 				}
 				

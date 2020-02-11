@@ -39,8 +39,7 @@ $(document).ready(function(){
 				ulogovaniKorisnik = data.korisnickoIme;
 				ulogovaniKorisnikUloga = data.ulogovaniKorisnikUloga;
 				
-				$('#meni').append('<li><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>'+
-						'<li><a href="mojeKarte.html">Moje karte</a></li>');
+				$('#meni').append('<li class="active"><a href="mojnalog.html?korIme=' + data.korisnickoIme +'">Moj nalog</a></li>');
 				
 				if(ulogovaniKorisnik == korIme){
 					$('#izmeniBtn').show();
@@ -50,9 +49,8 @@ $(document).ready(function(){
 				
 				if(ulogovaniKorisnikUloga == 'ADMIN'){
 					
-					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>'+
-									'<li id="izvestavanje"><a href="izvestavanje.html">Izvestavanje</a></li>'+
-									'<li><a href="karte.html">Sve karte</a></li>');
+					$('#meni').append('<li id="korisnici"><a href="korisnici.html">Korisnici</a></li>');
+									
 					$('#izmeniBtn').show();
 					$('#obrisiBtn').show();
 					$('#adminLabel').show();
@@ -94,6 +92,42 @@ $(document).ready(function(){
 				alert("Nemate pravo pristupa!")
 				window.location.replace('pocetna.html');
 			}
+	});
+}
+	
+	
+	
+	
+	
+	function getKarte(){
+		$.get('KartaServlet',{'korIme' : korIme, 'action' : 'getKarteZaKorisnika'}, function(data){
+					
+				if(data.status == 'success'){
+					//alert("Uspeo je!")
+					var karte = data.karte;
+					
+					
+					for(i in karte){
+						var dt = new Date(karte[i].vremeProdaje);
+						var datum = dt.getDate()+'-'+(dt.getMonth()+1)+'-'+dt.getFullYear();
+						var vreme = dt.getHours() + ":" + dt.getMinutes()
+						
+						
+						$('#tbodyy').append(
+								'<tr>'+
+									'<td><a href ="karta.html?id=' + karte[i].id +'">'+ datum + " " + vreme +'</a></td>'+
+									
+								'</tr>'
+								)
+							
+					}
+					
+				}
+				if(data.status == 'failure'){
+					window.location.replace('pocetna.html');
+				}
+			
+			
 	});
 }
 	
@@ -179,7 +213,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	
+	getKarte()
 	menuBar()
 	getTable()
 	

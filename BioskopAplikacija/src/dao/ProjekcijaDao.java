@@ -80,11 +80,6 @@ public class ProjekcijaDao {
 				Sala sala = SalaDao.getOne(rset.getString(index++));
 				String tipProjekcije = rset.getString(index++);
 				String datumPrikazivanjaStr = rset.getString(index++);
-				Date datumPrikazivanja = new SimpleDateFormat(Constants.DATE_TIME_FORMAT).parse(datumPrikazivanjaStr);
-
-				
-				/*SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				Date datumPrikazivanja = sdf2.parse(datumPrikazivanjaStr);*/
 				
 				
 				int cenaKarte = rset.getInt(index++);
@@ -96,8 +91,6 @@ public class ProjekcijaDao {
 			return projekcije;
 		} catch (SQLException ex) {
 			System.out.println("Greska u SQL upitu!");
-			ex.printStackTrace();
-		} catch (ParseException ex) {
 			ex.printStackTrace();
 			
 		} finally {
@@ -409,5 +402,41 @@ public class ProjekcijaDao {
 			}
 			return (Integer) null;
 	}
+	
+	
+	
+	public static int brojProjekcijaZaFilm(int idFilma) {
+		Connection conn = ConnectionManager.getConnection();	
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int brojProjekcija = 0;
+			try {
+				
+				String query = "SELECT COUNT() FROM projekcije WHERE filmID = ? AND obrisan = '0'";
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setInt(1, idFilma);
+				rset = pstmt.executeQuery();
+				
+				brojProjekcija = Integer.parseInt(rset.getObject(1).toString());
+				
+				return brojProjekcija;
+				
+				
+		}catch (SQLException ex) {
+			System.out.println("Greska u SQL upitu!");
+			ex.printStackTrace();
+		}
+		finally {
+			try {pstmt.close();} catch (SQLException ex1) {ex1.printStackTrace();}
+			}
+			return (Integer) null;
+	}
+	
+	
+	
+	
+	
+	
 	
 }

@@ -57,6 +57,7 @@ public class PrijavaServlet extends HttpServlet {
 			else {
 				
 				request.getSession().setAttribute("UlogovaniKorisnik", korisnik.getKorisnickoIme());
+				request.getSession().setAttribute("UlogovaniKorisnikUloga", korisnik.getUloga());
 				
 				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
 				}

@@ -29,6 +29,14 @@ public class Projekcija {
 		this.obrisan = obrisan;
 	}
 
+
+	public Projekcija(int id, int cenaKarte, Film film) {
+		super();
+		this.id = id;
+		this.film = film;
+		this.cenaKarte = cenaKarte;
+	}
+
 	public int getId() {
 		return id;
 	}

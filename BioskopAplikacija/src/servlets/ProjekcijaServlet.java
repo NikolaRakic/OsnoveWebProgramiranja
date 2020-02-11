@@ -19,11 +19,13 @@ import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 import constants.Constants;
 import dao.FilmDao;
+import dao.KartaDao;
 import dao.KorisnikDao;
 import dao.ProjekcijaDao;
 import dao.SalaDao;
 import dao.SedisteDao;
 import model.Film;
+import model.Karta;
 import model.Korisnik;
 import model.Projekcija;
 import model.Sala;
@@ -46,6 +48,7 @@ public class ProjekcijaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
 			String action = request.getParameter("action");
 			System.out.println(action);
 			
@@ -171,9 +174,9 @@ public class ProjekcijaServlet extends HttpServlet {
 					ex.printStackTrace();
 					
 				}
-				
-				
+	
 			}
+			
 			
 			
 		}
@@ -182,61 +185,58 @@ public class ProjekcijaServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String ulogovaniKorisnikKorIme = (String) request.getSession().getAttribute("UlogovaniKorisnik");
+		String ulogovaniKorisnikUloga = (String) request.getSession().getAttribute("UlogovaniKorisnikUloga");	
 		String action = request.getParameter("action");
 		
 		if(action.equals("add")) {
-			
-			int filmId = Integer.parseInt(request.getParameter("filmId"));	
-			Film film = FilmDao.getOne(filmId);
-			String salaNaziv = request.getParameter("salaNaziv");	
-			System.out.println("pronadjen salaNaziv -> " +salaNaziv);
-			Sala sala = SalaDao.getOne(salaNaziv);
-			
-			int brojSedista = Integer.parseInt(request.getParameter("brojSedista"));
-			
-			
-			String tipProjekcije = request.getParameter("tipProjekcije");			
-			String datumPrikazivanja = request.getParameter("datumPrikazivanja");
-			
-			java.util.Date datumIvreme = null;
-			
-			System.out.println("DATUM PRE PARSIRANJE JE :" + datumPrikazivanja);
+			if(ulogovaniKorisnikUloga.equals("ADMIN")) {
+				
+				int filmId = Integer.parseInt(request.getParameter("filmId"));	
+				Film film = FilmDao.getOne(filmId);
+				String salaNaziv = request.getParameter("salaNaziv");	
+				
+				Sala sala = SalaDao.getOne(salaNaziv);
+				
+				int brojSedista = Integer.parseInt(request.getParameter("brojSedista"));
+	
+				String tipProjekcije = request.getParameter("tipProjekcije");			
+				String datumPrikazivanja = request.getParameter("datumPrikazivanja");
+				
+				
+				String dateValidFormat = datumPrikazivanja + ":00";
+				int cenaKarte = Integer.parseInt(request.getParameter("cenaKarte"));			
+				String adminKorIme = (String) request.getSession().getAttribute("UlogovaniKorisnik");
+				Korisnik admin = KorisnikDao.getOne(adminKorIme);
+				Projekcija novaProjekcije = new Projekcija(1, film, sala, tipProjekcije, dateValidFormat, cenaKarte, admin, false);
+				
 
-
-			try {
-				datumIvreme = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datumPrikazivanja);
-				System.out.println("DATUM POSLE PARSIRANJA JE : "+ datumIvreme);
-			} catch (ParseException ex) {
-			
-				ex.printStackTrace();
+				try{
+					ProjekcijaDao.create(novaProjekcije);
+					int novaProjekcijaId = ProjekcijaDao.getMaxId();
+					SedisteDao.dodajSedistaZaProjekciju(novaProjekcijaId, brojSedista);
+					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				}catch (Exception ex) {
+					ex.printStackTrace();
+					request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				}
 			}
-			String dateValidFormat = datumPrikazivanja + ":00";
-			int cenaKarte = Integer.parseInt(request.getParameter("cenaKarte"));			
-			String adminKorIme = (String) request.getSession().getAttribute("UlogovaniKorisnik");
-			Korisnik admin = KorisnikDao.getOne(adminKorIme);
-			Projekcija novaProjekcije = new Projekcija(1, film, sala, tipProjekcije, dateValidFormat, cenaKarte, admin, false);
 			
 			
 			
-			
-			try{
-				ProjekcijaDao.create(novaProjekcije);
-				int novaProjekcijaId = ProjekcijaDao.getMaxId();
-				SedisteDao.dodajSedistaZaProjekciju(novaProjekcijaId, brojSedista);
-			}catch (Exception ex) {
-				ex.printStackTrace();
-			}
 			}
 		
 		if(action.equals("delete")) {
-			int id = Integer.parseInt(request.getParameter("id"));
-			try {
-				ProjekcijaDao.delete(id);
-				request.getRequestDispatcher("./SuccessServlet").forward(request, response);
-			}catch (Exception e) {
-				request.getRequestDispatcher("./FailureServlet").forward(request, response);
+			if(ulogovaniKorisnikUloga.equals("ADMIN")) {
+				int id = Integer.parseInt(request.getParameter("id"));
+				try {
+					ProjekcijaDao.delete(id);
+					request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+				}catch (Exception e) {
+					request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				}
 			}
+			
 		}
 	}
 

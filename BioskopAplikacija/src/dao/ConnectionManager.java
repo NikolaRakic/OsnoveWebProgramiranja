@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 public class ConnectionManager {
 
-	private static final String DATABASE_NAME = "bioskopweb.db";
+	private static final String DATABASE_NAME = "schema.db";
 
 	private static final String FILE_SEPARATOR = System.getProperty("file.separator");
 	private static final String WINDOWS_PATH = "C:" + FILE_SEPARATOR + "Temp" + FILE_SEPARATOR + "SQLite" + FILE_SEPARATOR + DATABASE_NAME;

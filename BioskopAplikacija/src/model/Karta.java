@@ -22,6 +22,12 @@ public class Karta {
 		this.obrisan = obrisan;
 	}
 
+	public Karta(int id, Projekcija projekcija) {
+		super();
+		this.id = id;
+		this.projekcija = projekcija;
+	}
+
 	public int getId() {
 		return id;
 	}
